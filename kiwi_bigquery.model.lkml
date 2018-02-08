@@ -527,13 +527,13 @@ explore: completed_order {
   }
 }
 
-explore: completed_order_view {
-  join: users {
-    type: left_outer
-    sql_on: ${completed_order_view.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+# explore: completed_order_view {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${completed_order_view.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 #
 # explore: consolidated_anonymous_ids {}
 #
@@ -1481,18 +1481,23 @@ explore: pages {
     sql_on: ${pages.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
-}
-
-explore: pages_view {
-  join: users {
+  join: completed_order {
     type: left_outer
-    sql_on: ${pages_view.user_id} = ${users.id} ;;
-    relationship: many_to_one
+    sql_on: ${pages.session_id} = ${completed_order.session_id} ;;
+    relationship: many_to_many
   }
 }
+
+# explore: pages_view {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${pages_view.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 #
 # explore: pageview_utm_view {}
-#
+
 # explore: pause_link_clicked {
 #   join: users {
 #     type: left_outer
