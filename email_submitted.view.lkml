@@ -12,37 +12,37 @@ view: email_submitted {
     sql: ${TABLE}.anonymous_id ;;
   }
 
-  dimension: context_campaign_ca_20mpaign {
-    type: string
-    sql: ${TABLE}.context_campaign_ca_20mpaign ;;
-  }
+#   dimension: context_campaign_ca_20mpaign {
+#     type: string
+#     sql: ${TABLE}.context_campaign_ca_20mpaign ;;
+#   }
+#
+#   dimension: context_campaign_caampaign {
+#     type: string
+#     sql: ${TABLE}.context_campaign_caampaign ;;
+#   }
 
-  dimension: context_campaign_caampaign {
-    type: string
-    sql: ${TABLE}.context_campaign_caampaign ;;
-  }
-
-  dimension: context_campaign_content {
+  dimension: utm_content {
     type: string
     sql: ${TABLE}.context_campaign_content ;;
   }
 
-  dimension: context_campaign_medium {
+  dimension: utm_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
   }
 
-  dimension: context_campaign_name {
+  dimension: utm_campaign {
     type: string
     sql: ${TABLE}.context_campaign_name ;;
   }
 
-  dimension: context_campaign_source {
+  dimension: utm_source {
     type: string
     sql: ${TABLE}.context_campaign_source ;;
   }
 
-  dimension: context_campaign_term {
+  dimension: utm_term {
     type: string
     sql: ${TABLE}.context_campaign_term ;;
   }
@@ -52,42 +52,42 @@ view: email_submitted {
     sql: ${TABLE}.context_ip ;;
   }
 
-  dimension: context_library_name {
-    type: string
-    sql: ${TABLE}.context_library_name ;;
-  }
+#   dimension: context_library_name {
+#     type: string
+#     sql: ${TABLE}.context_library_name ;;
+#   }
+#
+#   dimension: context_library_version {
+#     type: string
+#     sql: ${TABLE}.context_library_version ;;
+#   }
 
-  dimension: context_library_version {
-    type: string
-    sql: ${TABLE}.context_library_version ;;
-  }
-
-  dimension: context_page_path {
+  dimension: page_path {
     type: string
     sql: ${TABLE}.context_page_path ;;
   }
 
-  dimension: context_page_referrer {
+  dimension: page_referrer {
     type: string
     sql: ${TABLE}.context_page_referrer ;;
   }
 
-  dimension: context_page_search {
+  dimension: page_params {
     type: string
     sql: ${TABLE}.context_page_search ;;
   }
 
-  dimension: context_page_title {
+  dimension: page_title {
     type: string
     sql: ${TABLE}.context_page_title ;;
   }
 
-  dimension: context_page_url {
+  dimension: page_url {
     type: string
     sql: ${TABLE}.context_page_url ;;
   }
 
-  dimension: context_user_agent {
+  dimension: user_agent {
     type: string
     sql: ${TABLE}.context_user_agent ;;
   }
@@ -112,66 +112,66 @@ view: email_submitted {
     sql: ${TABLE}.event_text ;;
   }
 
-  dimension_group: loaded {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.loaded_at ;;
-  }
+#   dimension_group: loaded {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.loaded_at ;;
+#   }
 
   dimension: newsletter_store {
     type: string
     sql: ${TABLE}.newsletter_store ;;
   }
 
-  dimension_group: original_timestamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.original_timestamp ;;
-  }
+#   dimension_group: original_timestamp {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.original_timestamp ;;
+#   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.received_at ;;
-  }
-
-  dimension_group: sent {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.sent_at ;;
-  }
+#   dimension_group: received {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.received_at ;;
+#   }
+#
+#   dimension_group: sent {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.sent_at ;;
+#   }
 
   dimension_group: timestamp {
     type: time
@@ -193,31 +193,34 @@ view: email_submitted {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
-  }
+#   dimension_group: uuid_ts {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.uuid_ts ;;
+#   }
 
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
+  measure: distinct_count {
+    type: count_distinct
+    sql: ${anonymous_id} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       id,
-      context_campaign_name,
-      context_library_name,
       users.context_campaign_name,
       users.id,
       users.context_library_name,

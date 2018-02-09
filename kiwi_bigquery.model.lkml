@@ -1486,6 +1486,11 @@ explore: pages {
     sql_on: ${pages.session_id} = ${completed_order.session_id} ;;
     relationship: many_to_many
   }
+  join: email_submitted {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
 }
 
 # explore: pages_view {

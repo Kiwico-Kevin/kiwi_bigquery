@@ -86,8 +86,8 @@ view: completed_order {
 #     sql: ${TABLE}.loaded_at ;;
 #   }
 
-  dimension: oldrevenue {
-    type: number
+  measure: oldrevenue {
+    type: sum_distinct
     sql: ${TABLE}.oldrevenue ;;
   }
 
@@ -129,8 +129,9 @@ view: completed_order {
 #     sql: ${TABLE}.received_at ;;
 #   }
 
-  dimension: revenue {
-    type: string
+  measure: revenue {
+    type: sum_distinct
+    value_format: "$#,##0.00"
     sql: ${TABLE}.revenue ;;
   }
 
@@ -153,13 +154,15 @@ view: completed_order {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: shipping {
-    type: string
+  measure: shipping {
+    type: sum_distinct
+    value_format: "$#,##0.00"
     sql: ${TABLE}.shipping ;;
   }
 
-  dimension: tax {
-    type: string
+  measure: tax {
+    type: sum_distinct
+    value_format: "$#,##0.00"
     sql: ${TABLE}.tax ;;
   }
 
@@ -177,8 +180,9 @@ view: completed_order {
     sql: ${TABLE}.timestamp ;;
   }
 
-  dimension: total {
-    type: string
+  measure: total {
+    type: sum_distinct
+    value_format: "$#,##0.00"
     sql: ${TABLE}.total ;;
   }
 
@@ -207,7 +211,7 @@ view: completed_order {
     drill_fields: [detail*]
   }
 
-  measure: order_count {
+  measure: distinct_orders {
     type: count_distinct
     sql: ${order_id} ;;
   }

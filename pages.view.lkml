@@ -1,3 +1,5 @@
+include: "*.view.lkml"
+
 view: pages {
   sql_table_name: javascript.pages ;;
 
@@ -430,6 +432,16 @@ view: pages {
     END;;
   }
 
+  dimension: device_group {
+    sql:
+      CASE
+        WHEN ${device} = 'iPhone' or ${device} = 'Android' THEN 'Mobile'
+        WHEN ${device} = 'OS X' or ${device} = 'Linux' or ${device} = 'Windows' THEN 'Desktop'
+        WHEN ${device} = 'iPad' THEN 'Tablet'
+        ELSE 'Other'
+    END;;
+  }
+
   dimension: customer_type {
     type: string
     sql: ${TABLE}.customer ;;
@@ -555,8 +567,9 @@ view: pages {
     sql: ${TABLE}.title ;;
   }
 
-  dimension: total_revenue {
-    type: number
+  measure: total_revenue {
+    type: sum_distinct
+    value_format: "$#,##0.00"
     sql: ${TABLE}.total_revenue ;;
   }
 
@@ -593,6 +606,32 @@ view: pages {
   measure: distinct_users {
     type: count_distinct
     sql: ${anonymous_id} ;;
+  }
+
+#   measure: total_orders {
+#     type: number
+#     sql:
+#       (select Count(Distinct o.id)
+#         FROM completed_order as o
+#         where o.session_id=${TABLE}.session_id);;
+#   }
+
+  measure: conversion_rate {
+    type: number
+    value_format: "0.00%"
+    sql: ${completed_order.distinct_orders}/NULLIF(${distinct_users},0) ;;
+  }
+
+  measure: newsletter_conversion {
+    type: number
+    value_format: "0.00%"
+    sql: ${email_submitted.distinct_count}/NULLIF(${distinct_users},0) ;;
+  }
+
+  measure: revenue_per_order {
+    type: number
+    value_format: "$#,##0.00"
+    sql:  ${total_revenue}/NULLIF(${completed_order.distinct_orders},0) ;;
   }
 
   # ----- Sets of fields for drilling ------
