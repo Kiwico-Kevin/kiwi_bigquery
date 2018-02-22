@@ -119,10 +119,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_cnnmedium ;;
 #   }
 
-  dimension: utm_content {
-    type: string
-    sql: ${TABLE}.context_campaign_content ;;
-  }
+
 
 #   dimension: context_campaign_conupsent {
 #     type: string
@@ -184,10 +181,36 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_medifum ;;
 #   }
 
+  dimension: utm_content {
+    type: string
+    sql: ${TABLE}.context_campaign_content ;;
+  }
+
   dimension: utm_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
   }
+
+  dimension: utm_campaign {
+    type: string
+    sql: ${TABLE}.context_campaign_name ;;
+  }
+
+  dimension: utm_source {
+    type: string
+    sql: ${TABLE}.context_campaign_source ;;
+  }
+
+  dimension: utm_term {
+    type: string
+    sql: ${TABLE}.context_campaign_term ;;
+  }
+
+  dimension: context_ip {
+    type: string
+    sql: ${TABLE}.context_ip ;;
+  }
+
 #
 #   dimension: context_campaign_medium_20_20_20_20 {
 #     type: string
@@ -223,11 +246,6 @@ view: pages {
 #     type: string
 #     sql: ${TABLE}.context_campaign_mraddish_20kidsedium ;;
 #   }
-
-  dimension: utm_campaign {
-    type: string
-    sql: ${TABLE}.context_campaign_name ;;
-  }
 #
 #   dimension: context_campaign_s_e2_80_8bource {
 #     type: string
@@ -254,10 +272,6 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_soufrce ;;
 #   }
 
-  dimension: utm_source {
-    type: string
-    sql: ${TABLE}.context_campaign_source ;;
-  }
 #
 #   dimension: context_campaign_source_5c {
 #     type: string
@@ -299,10 +313,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_surce ;;
 #   }
 
-  dimension: utm_term {
-    type: string
-    sql: ${TABLE}.context_campaign_term ;;
-  }
+
 #
 #   dimension: context_campaign_term0 {
 #     type: string
@@ -344,10 +355,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_uyyy677icontent ;;
 #   }
 
-  dimension: context_ip {
-    type: string
-    sql: ${TABLE}.context_ip ;;
-  }
+
 #
 #   dimension: context_library_name {
 #     type: string
@@ -584,6 +592,11 @@ view: pages {
     sql: ${TABLE}.user_id ;;
   }
 
+#   dimension: first_medium {
+#     type: string
+#     sql: first_value(${utm_medium}) OVER (PARTITION BY ${anonymous_id} ORDER BY ${timestamp_raw} ASC) ;;
+#   }
+
 #   dimension_group: uuid_ts {
 #     type: time
 #     timeframes: [
@@ -606,6 +619,11 @@ view: pages {
   measure: distinct_users {
     type: count_distinct
     sql: ${anonymous_id} ;;
+  }
+
+  measure: distinct_sessions {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 
 #   measure: total_orders {

@@ -813,13 +813,29 @@ explore: completed_order {
 #   }
 # }
 #
-# explore: experiment_viewed {
-#   join: users {
-#     type: left_outer
-#     sql_on: ${experiment_viewed.user_id} = ${users.id} ;;
-#     relationship: many_to_one
-#   }
-# }
+explore: experiment_viewed {
+  join: users {
+    type: left_outer
+    sql_on: ${experiment_viewed.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: pages {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${pages.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${completed_order.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: email_submitted {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
+
+}
 #
 # explore: experiment_viewed_view {
 #   join: users {
@@ -1484,12 +1500,17 @@ explore: pages {
   join: completed_order {
     type: left_outer
     sql_on: ${pages.session_id} = ${completed_order.session_id} ;;
-    relationship: many_to_many
+    relationship: many_to_one
   }
   join: email_submitted {
     type: left_outer
     sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
     relationship: many_to_many
+  }
+  join: first_last_attribution {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${first_last_attribution.anonymous_id} ;;
+    relationship: many_to_one
   }
 }
 
@@ -2481,7 +2502,23 @@ explore: pages {
 #   }
 # }
 #
-# explore: users {}
+ explore: users {
+  join: pages {
+    type: left_outer
+    sql_on: ${users.id}=${pages.user_id} ;;
+    relationship: one_to_many
+  }
+  join: email_submitted {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${users.id}=${completed_order.user_id} ;;
+    relationship: one_to_many
+  }
+ }
 #
 # explore: users_view {}
 #
