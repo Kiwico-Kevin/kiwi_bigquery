@@ -837,9 +837,16 @@ explore: experiment_viewed {
 }
 
 explore: customer_revenue_report{
+  join: customer_first_order {
+    type: inner
+    sql_on: ${customer_revenue_report.customer_id}=${customer_first_order.customer_id} ;;
+    relationship: many_to_one
+  }
   join: magento_order_analytics {
-    sql_on: ${customer_revenue_report.order_id}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
     relationship: one_to_one
+    required_joins: [customer_first_order]
     }
 }
 

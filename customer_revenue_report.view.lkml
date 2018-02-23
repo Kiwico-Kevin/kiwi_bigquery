@@ -63,7 +63,7 @@ view: customer_revenue_report {
   }
 
   dimension: sku_store {
-  sql: |
+  sql:
   CASE WHEN ${TABLE}.attributed_to_sku LIKE 'kw-%' THEN 'Kiwi'
   WHEN ${TABLE}.attributed_to_sku LIKE 'dd-%' THEN 'Doodle'
   WHEN ${TABLE}.attributed_to_sku LIKE 'tk-%' THEN 'Tinker'
@@ -75,7 +75,7 @@ view: customer_revenue_report {
   }
 
   dimension: sku_type {
-  sql: |
+  sql:
   CASE WHEN ${TABLE}.attributed_to_sku LIKE '%trial%' THEN 'trial'
   WHEN ${TABLE}.attributed_to_sku LIKE '%01%' THEN 'Monthly'
   WHEN ${TABLE}.attributed_to_sku LIKE '%12R%' THEN '12M Join'
@@ -97,10 +97,10 @@ view: customer_revenue_report {
   }
 
   dimension: sku_category {
-  sql: |
+  sql:
   CASE WHEN ${sku_type} LIKE '%trial%' THEN 'trial'
   WHEN ${sku_type} LIKE '%Join%' THEN 'Join'
-  WHEN ${sku_type} LIKE '%Monthly%' THEN 'trial'
+  WHEN ${sku_type} LIKE '%Monthly%' THEN 'Join'
   WHEN ${sku_type} LIKE '%Gift%' THEN 'Gift'
   WHEN ${sku_type} LIKE '%Deal%' THEN 'Deal'
   ELSE 'Shop'
@@ -146,16 +146,22 @@ view: customer_revenue_report {
 #   }
 
   measure: recognized_revenue {
-  type: sum
+  type: sum_distinct
   value_format: "$#,##0.00"
   sql: ${TABLE}.recognized_revenue ;;
   }
 
   dimension: customer_id {
   type: number
-  primary_key: yes
   sql: ${TABLE}.customer_id ;;
 }
+
+  dimension: id {
+    type: number
+    hidden: yes
+    primary_key: yes
+    sql: ${TABLE}.id ;;
+  }
 
   measure: distinct_customers {
   type: count_distinct
