@@ -834,8 +834,15 @@ explore: experiment_viewed {
     sql_on: ${experiment_viewed.anonymous_id} = ${email_submitted.anonymous_id} ;;
     relationship: many_to_many
   }
-
 }
+
+explore: customer_revenue_report{
+  join: magento_order_analytics {
+    sql_on: ${customer_revenue_report.order_id}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
+    relationship: one_to_one
+    }
+}
+
 #
 # explore: experiment_viewed_view {
 #   join: users {
@@ -1491,6 +1498,8 @@ explore: experiment_viewed {
 #
 # explore: our_vision_modal_view {}
 #
+explore: monthly_activity {}
+
 explore: pages {
   join: users {
     type: left_outer

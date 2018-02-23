@@ -1,22 +1,22 @@
 view: revenue_report {
   sql_table_name: javascript.revenue_report ;;
 
-  dimension: oi_revenue_report_attributed_to_o {
+  dimension: attributed_to_o {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Attributed_to_O ;;
   }
 
-  dimension: oi_revenue_report_attributed_to_oi {
+  dimension: attributed_to_oi {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Attributed_to_Oi ;;
   }
 
-  dimension: oi_revenue_report_attributed_to_sku {
+  dimension: attributed_to_sku {
     type: string
     sql: ${TABLE}.Oi_Revenue_Report_Attributed_to_SKU ;;
   }
 
-  dimension_group: oi_revenue_report_date_paid {
+  dimension_group: date_paid {
     type: time
     timeframes: [
       raw,
@@ -30,7 +30,7 @@ view: revenue_report {
     sql: ${TABLE}.Oi_Revenue_Report_Date_Paid ;;
   }
 
-  dimension_group: oi_revenue_report_date_shipped {
+  dimension_group: date_shipped {
     type: time
     timeframes: [
       raw,
@@ -44,27 +44,27 @@ view: revenue_report {
     sql: ${TABLE}.Oi_Revenue_Report_Date_Shipped ;;
   }
 
-  dimension: oi_revenue_report_oi_sku {
+  dimension: oi_sku {
     type: string
     sql: ${TABLE}.Oi_Revenue_Report_Oi_SKU ;;
   }
 
-  dimension: oi_revenue_report_order_id {
+  dimension: order_id {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Order_ID ;;
   }
 
-  dimension: oi_revenue_report_order_item_id {
+  dimension: item_id {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Order_Item_ID ;;
   }
 
-  dimension: oi_revenue_report_recognized_revenue {
+  dimension: recognized_revenue {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Recognized_Revenue ;;
   }
 
-  dimension: oi_revenue_report_recognized_revenue_if_shipped {
+  dimension: recognized_revenue_if_shipped {
     type: number
     sql: ${TABLE}.Oi_Revenue_Report_Recognized_Revenue_If_Shipped ;;
   }
