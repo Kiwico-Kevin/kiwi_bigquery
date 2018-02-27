@@ -848,6 +848,23 @@ explore: customer_revenue_report{
     relationship: one_to_one
     required_joins: [customer_first_order]
     }
+  join: magento_flat_order {
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_flat_order.entity_id};;
+    relationship: many_to_one
+    required_joins: [customer_first_order]
+  }
+  join: magento_subscriptions {
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_subscriptions.primary_order_id};;
+    relationship: many_to_one
+    required_joins: [customer_first_order]
+  }
+  join: magento_customer {
+    type: left_outer
+    sql_on: ${customer_revenue_report.customer_id}=${magento_customer.entity_id} ;;
+    relationship: many_to_one
+  }
 }
 
 #
