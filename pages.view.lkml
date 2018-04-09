@@ -513,6 +513,38 @@ view: pages {
     sql: ${TABLE}.path ;;
   }
 
+  dimension: path_type {
+    sql:
+      CASE
+        WHEN ${path} LIKE '/' THEN 'Homepage'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/subscriptions' THEN 'Sub Hub'
+        WHEN ${path} LIKE '/subscription/manage/index/id/%' THEN 'Manage Subscription'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/orders%' THEN 'Manage Store Orders'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/credits%' THEN 'Rewards'
+        WHEN ${path} LIKE '/customer/account/forgotpassword%' THEN 'Forgot Password'
+        WHEN ${path} LIKE '/customer/account/login%' THEN 'Account Login'
+        WHEN ${path} LIKE '/customer/account%' THEN 'Manage Account'
+        WHEN ${path} LIKE '/tinker' THEN 'Tinker Page'
+        WHEN ${path} LIKE '/kiwi' THEN 'Kiwi Page'
+        WHEN ${path} LIKE '/koala' THEN 'Koala Page'
+        WHEN ${path} LIKE '/doodle' THEN 'Doodle Page'
+        WHEN ${path} LIKE '/cricket' THEN 'Cricket Page'
+        WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
+        WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
+        WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
+        WHEN ${path} LIKE '/koala/%' THEN 'Koala Explore'
+        WHEN ${path} LIKE '/doodle/%' THEN 'Doodle Explore'
+        WHEN ${path} LIKE '/cricket/%' THEN 'Cricket Explore'
+        WHEN ${path} LIKE '/store%' THEN 'Store'
+        WHEN ${path} LIKE '/blog/%' THEN 'Blog'
+        WHEN ${path} LIKE '/diy/%' THEN 'DIY'
+        WHEN ${path} LIKE '/survey%' THEN 'Survey'
+        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter' THEN 'Marketing'
+        WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
+        ELSE 'Other'
+    END;;
+  }
+
 #   dimension_group: received {
 #     type: time
 #     timeframes: [
@@ -561,6 +593,7 @@ view: pages {
     timeframes: [
       raw,
       time,
+      hour,
       date,
       week,
       month,
