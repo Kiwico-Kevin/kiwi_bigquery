@@ -191,6 +191,21 @@ view: pages {
     sql: ${TABLE}.context_campaign_medium ;;
   }
 
+  dimension: medium_type {
+    sql:
+     CASE
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf-sms-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf-fb-message-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf%' AND ${TABLE}.context_campaign_medium = 'social' THEN 'raf_social'
+          WHEN ${TABLE}.context_campaign_name LIKE 'ltbx%' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_social'
+          WHEN ${TABLE}.context_campaign_name LIKE 'referral' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lgx%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_medium = 'email'  THEN 'email_triggered'
+          ELSE ${TABLE}.context_campaign_medium
+    END;;
+  }
   dimension: utm_campaign {
     type: string
     sql: ${TABLE}.context_campaign_name ;;
