@@ -470,6 +470,14 @@ view: pages {
     sql: ${TABLE}.customer ;;
   }
 
+  dimension: customer_bucket {
+    sql:
+    CASE
+      WHEN ${TABLE}.customer like "logged%" OR ${TABLE}.customer like "admin" THEN 'Customer'
+      WHEN ${TABLE}.customer like "%visitor" OR ${TABLE}.customer like "lead" THEN 'Visitor'
+      ELSE 'Unknown'
+    END;;
+  }
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
