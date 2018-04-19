@@ -203,6 +203,7 @@ view: pages {
           WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
           WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
           WHEN ${TABLE}.context_campaign_medium = 'email'  THEN 'email_triggered'
+          WHEN ${TABLE}.context_campaign_medium = '(none)' OR ${TABLE}.context_campaign_medium IS NULL THEN 'direct'
           ELSE ${TABLE}.context_campaign_medium
     END;;
   }

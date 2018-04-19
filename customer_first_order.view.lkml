@@ -3,7 +3,7 @@ view: customer_first_order {
     sql:
       SELECT
         customer_id,
-        first_value(entity_id) OVER (PARTITION BY ${customer_id} ORDER BY created_at ASC)
+        first_value(entity_id) OVER (PARTITION BY customer_id ORDER BY created_at ASC)
           AS first_order
       FROM
         magento_flat_order ;;

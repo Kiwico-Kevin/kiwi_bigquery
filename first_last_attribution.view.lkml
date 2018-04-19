@@ -3,32 +3,33 @@
       sql:
       SELECT
         anonymous_id,
-        first_value(context_campaign_medium) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_campaign_medium) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_medium,
-        last_value(context_campaign_medium ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_campaign_medium ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_medium,
-        first_value(context_campaign_source) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_campaign_source) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_source,
-        last_value(context_campaign_source ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_campaign_source ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_source,
-        first_value(context_campaign_name) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_campaign_name) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_campaign,
-        last_value(context_campaign_name ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_campaign_name ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_campaign,
-        first_value(context_campaign_content) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_campaign_content) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_content,
-        last_value(context_campaign_content ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_campaign_content ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_content,
-        first_value(context_campaign_term) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_campaign_term) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_term,
-        last_value(context_campaign_term ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_campaign_term ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_term,
-        first_value(context_user_agent) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        first_value(context_user_agent) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_user_agent,
-        last_value(context_user_agent ignore nulls) OVER (PARTITION BY ${anonymous_id} ORDER BY timestamp ASC)
+        last_value(context_user_agent ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_user_agent
       FROM
         pages ;;
+      sql_trigger_value: SELECT_CURDATE() ;;
       }
 
     dimension: anonymous_id {
