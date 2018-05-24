@@ -194,6 +194,7 @@ view: pages {
   dimension: medium_type {
     sql:
      CASE
+          WHEN (${TABLE}.referrer LIKE '%google%' OR ${TABLE}.referrer LIKE '%bing%')AND ${TABLE}.context_campaign_medium is null  THEN 'organic'
           WHEN ${TABLE}.context_campaign_name LIKE 'raf-sms-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
           WHEN ${TABLE}.context_campaign_name LIKE 'raf-fb-message-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
           WHEN ${TABLE}.context_campaign_name LIKE 'raf%' AND ${TABLE}.context_campaign_medium = 'social' THEN 'raf_social'
@@ -227,6 +228,20 @@ view: pages {
     sql: ${TABLE}.context_ip ;;
   }
 
+  dimension: facebook_adname {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_content, NULL);;
+  }
+
+  dimension: facebook_campaign {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_term, NULL);;
+  }
+
+  dimension: facebook_adset {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_campaign, NULL);;
+  }
 #
 #   dimension: context_campaign_medium_20_20_20_20 {
 #     type: string

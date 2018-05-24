@@ -1545,6 +1545,16 @@ explore: pages {
     sql_on: ${pages.anonymous_id} = ${first_last_attribution.anonymous_id} ;;
     relationship: many_to_one
   }
+  join: landing_page {
+    type: left_outer
+    sql_on: ${pages.session_id} = ${landing_page.session_id} ;;
+    relationship: many_to_one
+  }
+  join: geolocation_from_ip {
+    type: left_outer
+    sql_on: ${pages.id} = ${geolocation_from_ip.id} ;;
+    relationship: many_to_one
+  }
 }
 
 # explore: pages_view {
