@@ -29,7 +29,7 @@
           AS last_user_agent
       FROM
         pages ;;
-      sql_trigger_value: SELECT CURDATE() ;;
+      sql_trigger_value: SELECT CURRENT_DATE() ;;
       }
 
     dimension: anonymous_id {
