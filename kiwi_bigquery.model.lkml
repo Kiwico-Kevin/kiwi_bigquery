@@ -4,7 +4,7 @@ connection: "kiwi_biqquery"
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+#include: "*.dashboard"
 
 datagroup: kiwi_bigquery_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -523,6 +523,14 @@ explore: completed_order {
   join: users {
     type: left_outer
     sql_on: ${completed_order.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: pricing_experiment {
+  join: aliases {
+    type: left_outer
+    sql_on: ${pricing_experiment.anonymous_id} = ${aliases.anonymous_id} ;;
     relationship: many_to_one
   }
 }
