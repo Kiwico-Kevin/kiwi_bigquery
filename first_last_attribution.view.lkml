@@ -19,6 +19,10 @@
           AS first_content,
         last_value(context_campaign_content ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_content,
+        first_value(referrer) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS first_referrer,
+        last_value(referrer ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS last_referrer,
         first_value(context_campaign_term) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_term,
         last_value(context_campaign_term ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
@@ -61,6 +65,14 @@
     dimension: last_campaign {
       type: string
       sql: ${TABLE}.last_campaign ;;
+    }
+    dimension: first_referrer {
+      type: string
+      sql: ${TABLE}.first_referrer ;;
+    }
+    dimension: last_referrer {
+      type: string
+      sql: ${TABLE}.last_referrer ;;
     }
     dimension: first_content {
       type: string
