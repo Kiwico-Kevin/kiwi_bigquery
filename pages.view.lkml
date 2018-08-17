@@ -119,10 +119,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_cnnmedium ;;
 #   }
 
-  dimension: utm_content {
-    type: string
-    sql: ${TABLE}.context_campaign_content ;;
-  }
+
 
 #   dimension: context_campaign_conupsent {
 #     type: string
@@ -184,9 +181,66 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_medifum ;;
 #   }
 
+  dimension: utm_content {
+    type: string
+    sql: ${TABLE}.context_campaign_content ;;
+  }
+
   dimension: utm_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
+  }
+
+  dimension: medium_type {
+    sql:
+     CASE
+          WHEN (${TABLE}.referrer LIKE '%google%' OR ${TABLE}.referrer LIKE '%bing%')AND ${TABLE}.context_campaign_medium is null  THEN 'organic'
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf-sms-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf-fb-message-refer' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'raf%' AND ${TABLE}.context_campaign_medium = 'social' THEN 'raf_social'
+          WHEN ${TABLE}.context_campaign_name LIKE 'ltbx%' AND ${TABLE}.context_campaign_medium = 'social'  THEN 'raf_social'
+          WHEN ${TABLE}.context_campaign_name LIKE 'referral' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'raf_message'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lgx%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.context_campaign_medium = 'email'  THEN 'email_triggered'
+          WHEN ${TABLE}.context_campaign_medium = '(none)' OR ${TABLE}.context_campaign_medium IS NULL THEN 'direct'
+          ELSE ${TABLE}.context_campaign_medium
+    END;;
+  }
+  dimension: utm_campaign {
+    type: string
+    sql: ${TABLE}.context_campaign_name ;;
+  }
+
+  dimension: utm_source {
+    type: string
+    sql: ${TABLE}.context_campaign_source ;;
+  }
+
+  dimension: utm_term {
+    type: string
+    sql: ${TABLE}.context_campaign_term ;;
+  }
+
+  dimension: context_ip {
+    type: string
+    sql: ${TABLE}.context_ip ;;
+  }
+
+  dimension: facebook_adname {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_content, NULL);;
+  }
+
+  dimension: facebook_campaign {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_term, NULL);;
+  }
+
+  dimension: facebook_adset {
+    type: string
+    sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_campaign, NULL);;
   }
 #
 #   dimension: context_campaign_medium_20_20_20_20 {
@@ -223,11 +277,6 @@ view: pages {
 #     type: string
 #     sql: ${TABLE}.context_campaign_mraddish_20kidsedium ;;
 #   }
-
-  dimension: utm_campaign {
-    type: string
-    sql: ${TABLE}.context_campaign_name ;;
-  }
 #
 #   dimension: context_campaign_s_e2_80_8bource {
 #     type: string
@@ -254,10 +303,6 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_soufrce ;;
 #   }
 
-  dimension: utm_source {
-    type: string
-    sql: ${TABLE}.context_campaign_source ;;
-  }
 #
 #   dimension: context_campaign_source_5c {
 #     type: string
@@ -299,10 +344,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_surce ;;
 #   }
 
-  dimension: utm_term {
-    type: string
-    sql: ${TABLE}.context_campaign_term ;;
-  }
+
 #
 #   dimension: context_campaign_term0 {
 #     type: string
@@ -344,10 +386,7 @@ view: pages {
 #     sql: ${TABLE}.context_campaign_uyyy677icontent ;;
 #   }
 
-  dimension: context_ip {
-    type: string
-    sql: ${TABLE}.context_ip ;;
-  }
+
 #
 #   dimension: context_library_name {
 #     type: string
@@ -447,6 +486,14 @@ view: pages {
     sql: ${TABLE}.customer ;;
   }
 
+  dimension: customer_bucket {
+    sql:
+    CASE
+      WHEN ${TABLE}.customer like "logged%" OR ${TABLE}.customer like "admin" THEN 'Customer'
+      WHEN ${TABLE}.customer like "%visitor" OR ${TABLE}.customer like "lead" THEN 'Visitor'
+      ELSE 'Unknown'
+    END;;
+  }
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
@@ -505,6 +552,38 @@ view: pages {
     sql: ${TABLE}.path ;;
   }
 
+  dimension: path_type {
+    sql:
+      CASE
+        WHEN ${path} LIKE '/' THEN 'Homepage'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/subscriptions' THEN 'Sub Hub'
+        WHEN ${path} LIKE '/subscription/manage/index/id/%' THEN 'Manage Subscription'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/orders%' THEN 'Manage Store Orders'
+        WHEN ${path} LIKE '/kiwicrate_customeraccount/credits%' THEN 'Rewards'
+        WHEN ${path} LIKE '/customer/account/forgotpassword%' THEN 'Forgot Password'
+        WHEN ${path} LIKE '/customer/account/login%' THEN 'Account Login'
+        WHEN ${path} LIKE '/customer/account%' THEN 'Manage Account'
+        WHEN ${path} LIKE '/tinker' THEN 'Tinker Page'
+        WHEN ${path} LIKE '/kiwi' THEN 'Kiwi Page'
+        WHEN ${path} LIKE '/koala' THEN 'Koala Page'
+        WHEN ${path} LIKE '/doodle' THEN 'Doodle Page'
+        WHEN ${path} LIKE '/cricket' THEN 'Cricket Page'
+        WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
+        WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
+        WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
+        WHEN ${path} LIKE '/koala/%' THEN 'Koala Explore'
+        WHEN ${path} LIKE '/doodle/%' THEN 'Doodle Explore'
+        WHEN ${path} LIKE '/cricket/%' THEN 'Cricket Explore'
+        WHEN ${path} LIKE '/store%' THEN 'Store'
+        WHEN ${path} LIKE '/blog/%' THEN 'Blog'
+        WHEN ${path} LIKE '/diy/%' THEN 'DIY'
+        WHEN ${path} LIKE '/survey%' THEN 'Survey'
+        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter' THEN 'Marketing'
+        WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
+        ELSE 'Other'
+    END;;
+  }
+
 #   dimension_group: received {
 #     type: time
 #     timeframes: [
@@ -553,6 +632,7 @@ view: pages {
     timeframes: [
       raw,
       time,
+      hour,
       date,
       week,
       month,
@@ -584,6 +664,11 @@ view: pages {
     sql: ${TABLE}.user_id ;;
   }
 
+#   dimension: first_medium {
+#     type: string
+#     sql: first_value(${utm_medium}) OVER (PARTITION BY ${anonymous_id} ORDER BY ${timestamp_raw} ASC) ;;
+#   }
+
 #   dimension_group: uuid_ts {
 #     type: time
 #     timeframes: [
@@ -606,6 +691,11 @@ view: pages {
   measure: distinct_users {
     type: count_distinct
     sql: ${anonymous_id} ;;
+  }
+
+  measure: distinct_sessions {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 
 #   measure: total_orders {

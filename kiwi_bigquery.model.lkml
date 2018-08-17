@@ -4,7 +4,7 @@ connection: "kiwi_biqquery"
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+#include: "*.dashboard"
 
 datagroup: kiwi_bigquery_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -527,6 +527,14 @@ explore: completed_order {
   }
 }
 
+explore: pricing_experiment {
+  join: aliases {
+    type: left_outer
+    sql_on: ${pricing_experiment.anonymous_id} = ${aliases.anonymous_id} ;;
+    relationship: many_to_one
+  }
+}
+
 # explore: completed_order_view {
 #   join: users {
 #     type: left_outer
@@ -813,13 +821,60 @@ explore: completed_order {
 #   }
 # }
 #
-# explore: experiment_viewed {
-#   join: users {
-#     type: left_outer
-#     sql_on: ${experiment_viewed.user_id} = ${users.id} ;;
-#     relationship: many_to_one
-#   }
-# }
+explore: experiment_viewed {
+  join: users {
+    type: left_outer
+    sql_on: ${experiment_viewed.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: pages {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${pages.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${completed_order.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: email_submitted {
+    type: left_outer
+    sql_on: ${experiment_viewed.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
+}
+
+explore: customer_revenue_report{
+  join: customer_first_order {
+    type: inner
+    sql_on: ${customer_revenue_report.customer_id}=${customer_first_order.customer_id} ;;
+    relationship: many_to_one
+  }
+  join: magento_order_analytics {
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
+    relationship: one_to_one
+    required_joins: [customer_first_order]
+    }
+  join: magento_flat_order {
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_flat_order.entity_id};;
+    relationship: many_to_one
+    required_joins: [customer_first_order]
+  }
+  join: magento_subscriptions {
+    type: left_outer
+    sql_on: ${customer_first_order.first_order}=${magento_subscriptions.primary_order_id};;
+    relationship: many_to_one
+    required_joins: [customer_first_order]
+  }
+  join: magento_customer {
+    type: left_outer
+    sql_on: ${customer_revenue_report.customer_id}=${magento_customer.entity_id} ;;
+    relationship: many_to_one
+  }
+}
+
 #
 # explore: experiment_viewed_view {
 #   join: users {
@@ -1475,6 +1530,8 @@ explore: completed_order {
 #
 # explore: our_vision_modal_view {}
 #
+explore: monthly_activity {}
+
 explore: pages {
   join: users {
     type: left_outer
@@ -1484,12 +1541,27 @@ explore: pages {
   join: completed_order {
     type: left_outer
     sql_on: ${pages.session_id} = ${completed_order.session_id} ;;
-    relationship: many_to_many
+    relationship: many_to_one
   }
   join: email_submitted {
     type: left_outer
     sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
     relationship: many_to_many
+  }
+  join: first_last_attribution {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${first_last_attribution.anonymous_id} ;;
+    relationship: many_to_one
+  }
+  join: landing_page {
+    type: left_outer
+    sql_on: ${pages.session_id} = ${landing_page.session_id} ;;
+    relationship: many_to_one
+  }
+  join: geolocation_from_ip {
+    type: left_outer
+    sql_on: ${pages.id} = ${geolocation_from_ip.id} ;;
+    relationship: many_to_one
   }
 }
 
@@ -2481,7 +2553,23 @@ explore: pages {
 #   }
 # }
 #
-# explore: users {}
+ explore: users {
+  join: pages {
+    type: left_outer
+    sql_on: ${users.id}=${pages.user_id} ;;
+    relationship: one_to_many
+  }
+  join: email_submitted {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${users.id}=${completed_order.user_id} ;;
+    relationship: one_to_many
+  }
+ }
 #
 # explore: users_view {}
 #
