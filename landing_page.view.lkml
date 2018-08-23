@@ -3,7 +3,7 @@ view: landing_page{
       sql:
       SELECT
         session_id,
-        first_value(path) OVER (PARTITION BY session_id ORDER BY timestamp ASC)
+        first_value(path ignore nulls) OVER (PARTITION BY session_id ORDER BY timestamp ASC)
           AS first_path
       FROM
         pages ;;
@@ -14,7 +14,6 @@ view: landing_page{
       type: string
       sql: ${TABLE}.session_id ;;
       primary_key: yes
-      hidden: yes
     }
     dimension: first_path {
       type: string
