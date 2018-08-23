@@ -533,6 +533,11 @@ explore: pricing_experiment {
     sql_on: ${pricing_experiment.anonymous_id} = ${aliases.anonymous_id} ;;
     relationship: many_to_one
   }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${pricing_experiment.anonymous_id} = ${completed_order.anonymous_id} ;;
+    relationship: many_to_many
+  }
 }
 
 # explore: completed_order_view {
