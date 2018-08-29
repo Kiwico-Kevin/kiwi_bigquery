@@ -4,7 +4,9 @@ view: landing_page{
       SELECT
         session_id,
         first_value(path ignore nulls) OVER (PARTITION BY session_id ORDER BY timestamp ASC)
-          AS first_path
+        AS first_path,
+        first_value(context_campaign_medium ignore nulls) OVER (PARTITION BY session_id ORDER BY timestamp ASC)
+          AS first_medium
       FROM
         pages ;;
       sql_trigger_value: SELECT_CURDATE() ;;
@@ -19,6 +21,11 @@ view: landing_page{
       type: string
       sql: ${TABLE}.first_path ;;
     }
+
+  dimension: first_medium {
+    type: string
+    sql: ${TABLE}.first_medium ;;
+  }
 
   dimension: path_type {
     sql:

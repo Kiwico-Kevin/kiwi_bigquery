@@ -76,6 +76,11 @@ view: geolocation_from_ip {
           WHEN ${TABLE}.countryLabel LIKE '%Slovakia%'  THEN 'SK'
           WHEN ${TABLE}.countryLabel LIKE '%Slovenia%'  THEN 'SI'
           WHEN ${TABLE}.countryLabel LIKE '%Sweden%'  THEN 'SE'
+           WHEN ${TABLE}.countryLabel LIKE '%Singapore%'  THEN 'SG'
+          WHEN ${TABLE}.countryLabel LIKE '%Switzerland%'  THEN 'SW'
+          WHEN ${TABLE}.countryLabel LIKE '%Iceland%'  THEN 'IS'
+          WHEN ${TABLE}.countryLabel LIKE '%Norway%'  THEN 'NO'
+          WHEN ${TABLE}.countryLabel LIKE '%Liechtenstein%'  THEN 'LI'
           ELSE 'Not Serviceable'
     END;;
   }
@@ -114,6 +119,11 @@ view: geolocation_from_ip {
           WHEN ${TABLE}.countryLabel LIKE '%Slovakia%'  THEN 'EU'
           WHEN ${TABLE}.countryLabel LIKE '%Slovenia%'  THEN 'EU'
           WHEN ${TABLE}.countryLabel LIKE '%Sweden%'  THEN 'EU'
+          WHEN ${TABLE}.countryLabel LIKE '%Singapore%'  THEN 'Asia'
+          WHEN ${TABLE}.countryLabel LIKE '%Switzerland%'  THEN 'EU'
+          WHEN ${TABLE}.countryLabel LIKE '%Iceland%'  THEN 'EU'
+          WHEN ${TABLE}.countryLabel LIKE '%Norway%'  THEN 'EU'
+          WHEN ${TABLE}.countryLabel LIKE '%Liechtenstein%'  THEN 'EU'
           ELSE 'Not Serviceable'
     END;;
   }
