@@ -213,6 +213,26 @@ view: pages {
     sql: ${TABLE}.context_campaign_name ;;
   }
 
+  dimension: campaign_type {
+    sql:
+     CASE
+          WHEN ${TABLE}.context_campaign_name LIKE '%welcome%' AND ${TABLE}.context_campaign_medium = 'email' THEN 'Welcome Series'
+          WHEN ${TABLE}.context_campaign_source LIKE '%Aban' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.context_campaign_content LIKE '%aban' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lgx%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_exsub'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_leadgen'
+          WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_active_sub'
+          WHEN ${TABLE}.context_campaign_name LIKE 'rn%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.context_campaign_name LIKE 'gifterrenew%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.context_campaign_name LIKE 'renew-r%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Extention Offer'
+          WHEN ${TABLE}.context_campaign_name LIKE 'givethanks%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Thank You Card'
+          WHEN ${TABLE}.context_campaign_name LIKE 'ship-conf%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Shipping Confirmation'
+          WHEN ${TABLE}.context_campaign_name LIKE '%survey%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Survey'
+          WHEN ${TABLE}.context_campaign_name LIKE 'sgrdraf%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Refer a Friend'
+          ELSE NULL
+     END;;
+    }
+
   dimension: utm_source {
     type: string
     sql: ${TABLE}.context_campaign_source ;;
