@@ -332,8 +332,8 @@ view: magento_sales_flat_order {
   dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
+      hour,
       date,
       week,
       month,
@@ -547,9 +547,46 @@ view: magento_sales_flat_order {
     sql: ${TABLE}.order_currency_code ;;
   }
 
+#   dimension: order_type {
+#     type: number
+#     sql: ${TABLE}.order_type ;;
+#   }
+
   dimension: order_type {
-    type: number
-    sql: ${TABLE}.order_type ;;
+    case: {
+      when: {
+        sql: ${TABLE}.order_type = 0 ;;
+        label: "Shop"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 1 ;;
+        label: "Sub_join"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 2 ;;
+        label: "Gift"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 3 ;;
+        label: "Virtual"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 4 ;;
+        label: "BnS_switch"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 5 ;;
+        label: "Renew"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 6 ;;
+        label: "Extension"
+      }
+      when: {
+        sql: ${TABLE}.order_type = 7 ;;
+        label: "Extra_Crates"
+      }
+    }
   }
 
   dimension: original_increment_id {
@@ -791,6 +828,7 @@ view: magento_sales_flat_order {
     sql: ${TABLE}.total_due ;;
   }
 
+
   dimension: total_invoiced {
     type: number
     sql: ${TABLE}.total_invoiced ;;
@@ -854,5 +892,15 @@ view: magento_sales_flat_order {
   measure: count {
     type: count
     drill_fields: [customer_firstname, coupon_rule_name, customer_lastname, store_name, customer_middlename]
+  }
+
+  measure: total_grand_total {
+    type: sum
+    sql: ${grand_total};;
+  }
+
+  measure: total_tax_amount {
+    type: sum
+    sql: ${tax_amount};;
   }
 }

@@ -79,6 +79,39 @@ view: magento_kiwicrate_order_analytics {
     sql: ${TABLE}.campaign ;;
   }
 
+  dimension: campaign_type {
+    sql:
+     CASE
+          WHEN ${TABLE}.campaign LIKE '%welcome%' AND ${TABLE}.medium = 'email' THEN 'Welcome Series'
+          WHEN ${TABLE}.source LIKE '%Aban' AND ${TABLE}.medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.content LIKE '%aban' AND ${TABLE}.medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.campaign LIKE 'lgx%' AND ${TABLE}.medium = 'email'  THEN 'promo_exsub'
+          WHEN ${TABLE}.campaign LIKE 'lg%' AND ${TABLE}.medium = 'email'  THEN 'promo_leadgen'
+          WHEN ${TABLE}.campaign LIKE 'nl%' AND ${TABLE}.medium = 'email'  THEN 'promo_active_sub'
+          WHEN ${TABLE}.campaign LIKE 'rn%' AND ${TABLE}.medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.campaign LIKE 'gifterrenew%' AND ${TABLE}.medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.campaign LIKE 'renew-r%' AND ${TABLE}.medium = 'email'  THEN 'Extention Offer'
+          WHEN ${TABLE}.campaign LIKE 'givethanks%' AND ${TABLE}.medium = 'email'  THEN 'Thank You Card'
+          WHEN ${TABLE}.campaign LIKE 'ship-conf%' AND ${TABLE}.medium = 'email'  THEN 'Shipping Confirmation'
+          WHEN ${TABLE}.campaign LIKE '%survey%' AND ${TABLE}.medium = 'email'  THEN 'Survey'
+          WHEN ${TABLE}.campaign LIKE 'sgrdraf%' AND ${TABLE}.medium = 'email'  THEN 'Refer a Friend'
+          ELSE NULL
+     END ;;
+  }
+
+  dimension: channel {
+    sql:
+      CASE
+          WHEN ${TABLE}.campaign LIKE 'raf%' AND ${TABLE}.medium = 'social' THEN 'RAF'
+          WHEN ${TABLE}.campaign LIKE 'ltbx%' AND ${TABLE}.medium = 'social'  THEN 'RAF'
+          WHEN ${TABLE}.campaign LIKE 'referral' AND ${TABLE}.medium = 'email'  THEN 'RAF'
+          WHEN (${TABLE}.campaign LIKE 'lgx%' OR ${TABLE}.campaign LIKE 'lg%' OR ${TABLE}.campaign LIKE 'nl%') AND ${TABLE}.medium = 'email'  THEN 'email_promo'
+          WHEN ${TABLE}.medium = 'email'  THEN 'email_triggered'
+          WHEN ${TABLE}.medium = '(none)' OR ${TABLE}.medium IS NULL THEN 'direct'
+          ELSE ${TABLE}.medium
+     END ;;
+  }
+
   dimension: content {
     type: string
     sql: ${TABLE}.content ;;

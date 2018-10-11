@@ -1511,6 +1511,16 @@ explore: customer_revenue_report{
 #     relationship: many_to_one
 #   }
 # }
+
+explore: magento_kiwicrate_subscription {
+    join: primary_order {
+    from: magento_sales_flat_order
+    type: left_outer
+    sql_on: primary_order.entity_id=magento_kiwicrate_subscription.primary_order_id ;;
+    relationship: many_to_many
+    }
+  }
+
 #
 # explore: our_story_modal {
 #   join: users {
