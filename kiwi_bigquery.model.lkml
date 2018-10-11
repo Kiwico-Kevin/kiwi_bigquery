@@ -1519,8 +1519,30 @@ explore: magento_kiwicrate_subscription {
     sql_on: primary_order.entity_id=magento_kiwicrate_subscription.primary_order_id ;;
     relationship: many_to_many
     }
+   join: order_analytics {
+    from: magento_kiwicrate_order_analytics
+    type:  left_outer
+    sql_on: order_analytics.order_id=primary_order.entity_id and order_analytics.type = 'order' ;;
+    required_joins: [primary_order]
+    relationship: many_to_many
+    }
   }
 
+explore: magento_sales_flat_order_item {
+  join: magento_sales_flat_order {
+    from: magento_sales_flat_order
+    type:  left_outer
+    sql_on:  ${magento_sales_flat_order.entity_id}=${magento_sales_flat_order_item.order_id};;
+    relationship: many_to_many
+  }
+  join: order_analytics {
+    from: magento_kiwicrate_order_analytics
+    type:  left_outer
+    sql_on: order_analytics.order_id=primary_order.entity_id and order_analytics.type = 'order' ;;
+    required_joins: [magento_sales_flat_order]
+    relationship: many_to_many
+  }
+}
 #
 # explore: our_story_modal {
 #   join: users {
