@@ -421,7 +421,7 @@ view: magento_kiwicrate_subscription {
   }
 
   measure: count {
-    type: count_distinct
+    type: count
     drill_fields: [id]
   }
 }
