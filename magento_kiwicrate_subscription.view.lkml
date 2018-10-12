@@ -231,7 +231,7 @@ view: magento_kiwicrate_subscription {
 
   dimension: queue_position {
     type: number
-    sql: ${TABLE}.queue_position ;;
+    sql: coalesce(${TABLE}.queue_position,0) ;;
   }
 
   dimension: received_before {
@@ -248,6 +248,11 @@ view: magento_kiwicrate_subscription {
     type: number
     sql: ${TABLE}.shipping_address_id ;;
   }
+
+#   dimension: status {
+#     type: yesno
+#     sql: ${TABLE}.status ;;
+#   }
 
   dimension: status {
     case: {
@@ -287,9 +292,128 @@ view: magento_kiwicrate_subscription {
     }
   }
 
+  dimension: store {
+    case: {
+      when: {
+        sql: ${TABLE}.store_id = 1 ;;
+        label: "Kiwi"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 2 ;;
+        label: "Doodle"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 3 ;;
+        label: "Koala"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 4 ;;
+        label: "Tinker"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 5 OR ${TABLE}.store_id = 8 OR ${TABLE}.store_id = 9 OR ${TABLE}.store_id = 10 OR ${TABLE}.store_id = 11 OR ${TABLE}.store_id = 12;;
+        label: "Tadpole"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 7 ;;
+        label: "Atlas"
+      }
+    }
+  }
+
   dimension: store_id {
     type: number
     sql: ${TABLE}.store_id ;;
+  }
+
+  dimension: subscription_length {
+    case: {
+      when: {
+        sql: ${TABLE}.period_type = 1 OR sql: ${TABLE}.period_type = 7 ;;
+        label: "1M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 2 OR sql: ${TABLE}.period_type = 9;;
+        label: "3M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 3 OR sql: ${TABLE}.period_type = 10;;
+        label: "6M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 4 OR sql: ${TABLE}.period_type = 11;;
+        label: "12M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 8 ;;
+        label: "2M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 12 ;;
+        label: "24M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 13 ;;
+        label: "36M"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 14 ;;
+        label: "4M"
+      }
+    }
+  }
+
+  dimension: subscription_period {
+    case: {
+      when: {
+        sql: ${TABLE}.period_type = 1 ;;
+        label: "Monthly"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 2 ;;
+        label: "3 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 3 ;;
+        label: "6 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 7 ;;
+        label: "1 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 8 ;;
+        label: "2 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 14 ;;
+        label: "4 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 4 OR ${TABLE}.period_type = 6;;
+        label: "12 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 9 ;;
+        label: "3 Month Autorenew"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 10 ;;
+        label: "6 Month Autorenew"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 11 ;;
+        label: "12 Month Autorenew"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 12 ;;
+        label: "24 Month Gift"
+      }
+      when: {
+        sql: ${TABLE}.period_type = 13 ;;
+        label: "36 Month Gift"
+      }
+      }
   }
 
   dimension: vip {
