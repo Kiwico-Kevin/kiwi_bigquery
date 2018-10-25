@@ -3,6 +3,7 @@
       sql:
       SELECT
         anonymous_id,
+        email,
         first_value(context_campaign_medium) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_medium,
         last_value(context_campaign_medium ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
@@ -32,7 +33,9 @@
         first_value(context_user_agent) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_user_agent,
         last_value(context_user_agent ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
-          AS last_user_agent
+          AS last_user_agent,
+        last_value(context_ip ignore nulls) OVER (PARTITION BY email ORDER BY timestamp ASC)
+          AS last_ip
       FROM
         pages ;;
       sql_trigger_value: SELECT CURRENT_DATE() ;;
@@ -44,6 +47,14 @@
       primary_key: yes
       hidden: yes
 }
+    dimension: email {
+      type: string
+      sql: ${TABLE}.email ;;
+    }
+    dimension: last_ip {
+      type: string
+      sql: ${TABLE}.last_ip ;;
+    }
     dimension: first_medium {
       type: string
       sql: ${TABLE}.first_medium ;;
