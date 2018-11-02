@@ -33,9 +33,7 @@
         first_value(context_user_agent) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_user_agent,
         last_value(context_user_agent ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
-          AS last_user_agent,
-        last_value(context_ip ignore nulls) OVER (PARTITION BY email ORDER BY timestamp ASC)
-          AS last_ip
+          AS last_user_agent
       FROM
         pages ;;
       sql_trigger_value: SELECT CURRENT_DATE() ;;

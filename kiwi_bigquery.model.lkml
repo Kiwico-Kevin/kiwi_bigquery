@@ -16,6 +16,14 @@ datagroup: kiwi_bigquery_default_datagroup {
 
 persist_with: kiwi_bigquery_default_datagroup
 
+# explore: subscribed {
+#   join: pages {
+#     type: inner
+#     sql_on: ${subscribed.email}=${pages.email} ;;
+#     relationship: one_to_many
+#   }
+# }
+
 # explore: added_product {
 #   join: users {
 #     type: left_outer
