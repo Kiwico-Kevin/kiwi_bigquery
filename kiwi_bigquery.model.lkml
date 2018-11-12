@@ -16,6 +16,14 @@ datagroup: kiwi_bigquery_default_datagroup {
 
 persist_with: kiwi_bigquery_default_datagroup
 
+# explore: subscribed {
+#   join: pages {
+#     type: inner
+#     sql_on: ${subscribed.email}=${pages.email} ;;
+#     relationship: one_to_many
+#   }
+# }
+
 # explore: added_product {
 #   join: users {
 #     type: left_outer
@@ -1526,6 +1534,12 @@ explore: magento_kiwicrate_subscription {
     required_joins: [primary_order]
     relationship: many_to_many
     }
+    join: magento_customer_entity {
+    from: magento_customer_entity
+    type:  left_outer
+    sql_on:  ${magento_customer_entity.entity_id}=${magento_kiwicrate_subscription.customer_id} ;;
+    relationship:  many_to_many
+    }
   }
 
 explore: magento_sales_flat_order_item {
@@ -1603,6 +1617,14 @@ explore: pages {
     sql_on: ${pages.id} = ${geolocation_from_ip.id} ;;
     relationship: many_to_one
   }
+  join: amp_pages {
+    type: full_outer
+    sql_on: ${pages.anonymous_id}=${amp_pages.anonymous_id} ;;
+    relationship: many_to_many
+  }
+}
+
+explore: amp_pages {
 }
 
 # explore: pages_view {
@@ -1855,13 +1877,13 @@ explore: pages {
 #   }
 # }
 #
-# explore: purchase_widget_customize {
-#   join: users {
-#     type: left_outer
-#     sql_on: ${purchase_widget_customize.user_id} = ${users.id} ;;
-#     relationship: many_to_one
-#   }
-# }
+explore: purchase_widget_customize {
+  join: users {
+    type: left_outer
+    sql_on: ${purchase_widget_customize.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+}
 #
 # explore: purchase_widget_customize_view {
 #   join: users {

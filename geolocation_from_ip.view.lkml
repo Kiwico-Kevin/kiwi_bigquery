@@ -81,6 +81,7 @@ view: geolocation_from_ip {
           WHEN ${TABLE}.countryLabel LIKE '%Iceland%'  THEN 'IS'
           WHEN ${TABLE}.countryLabel LIKE '%Norway%'  THEN 'NO'
           WHEN ${TABLE}.countryLabel LIKE '%Liechtenstein%'  THEN 'LI'
+          WHEN ${TABLE}.countryLabel LIKE '%Hong Kong%'  THEN 'HK'
           ELSE 'Not Serviceable'
     END;;
   }
@@ -124,6 +125,7 @@ view: geolocation_from_ip {
           WHEN ${TABLE}.countryLabel LIKE '%Iceland%'  THEN 'EU'
           WHEN ${TABLE}.countryLabel LIKE '%Norway%'  THEN 'EU'
           WHEN ${TABLE}.countryLabel LIKE '%Liechtenstein%'  THEN 'EU'
+          WHEN ${TABLE}.countryLabel LIKE '%Hong Kong%'  THEN 'Asia'
           ELSE 'Not Serviceable'
     END;;
   }

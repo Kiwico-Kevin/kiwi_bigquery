@@ -288,6 +288,7 @@ view: magento_kiwicrate_subscription {
         sql: ${TABLE}.status = -4 ;;
         label: "graduated"
       }
+      else: "unknown"
     }
   }
 

@@ -3,6 +3,7 @@
       sql:
       SELECT
         anonymous_id,
+        email,
         first_value(context_campaign_medium) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_medium,
         last_value(context_campaign_medium ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
@@ -44,6 +45,14 @@
       primary_key: yes
       hidden: yes
 }
+    dimension: email {
+      type: string
+      sql: ${TABLE}.email ;;
+    }
+    dimension: last_ip {
+      type: string
+      sql: ${TABLE}.last_ip ;;
+    }
     dimension: first_medium {
       type: string
       sql: ${TABLE}.first_medium ;;
