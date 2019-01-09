@@ -144,6 +144,7 @@ view: magento_customer_entity {
     WHERE s.giftee_email=${TABLE}.email AND s.customer_id <> ${TABLE}.entity_id);;
   }
 
+
   measure: count {
     type: count_distinct
 
