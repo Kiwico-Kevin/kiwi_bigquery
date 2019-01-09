@@ -16,6 +16,38 @@ datagroup: kiwi_bigquery_default_datagroup {
 
 persist_with: kiwi_bigquery_default_datagroup
 
+# explore: funnel {
+# join: magento_sales_flat_order {
+#   foreign_key: magento_sales_flat_order.created_date
+# }
+# join: pages {
+#   foreign_key: pages.timestamp_date
+# }
+# }
+
+explore: magento_customer_entity {
+  join: magento_sales_flat_order {
+    type: left_outer
+    sql_on: ${magento_customer_entity.entity_id}=${magento_sales_flat_order.customer_id} ;;
+    relationship: many_to_many
+  }
+  join: billing_address {
+    from: magento_sales_flat_order_address
+    sql_on: ${magento_customer_entity.entity_id}=${billing_address.customer_id} AND ${billing_address.address_type} =  'billing' ;;
+    relationship: many_to_many
+  }
+  join: first_name {
+    from: magento_customer_entity_varchar
+    sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=5 ;;
+    relationship: many_to_many
+  }
+  join: last_name {
+    from: magento_customer_entity_varchar
+    sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=7 ;;
+    relationship: many_to_many
+  }
+}
+
 # explore: subscribed {
 #   join: pages {
 #     type: inner
@@ -1521,6 +1553,12 @@ explore: customer_revenue_report{
 # }
 
 explore: magento_kiwicrate_subscription {
+#   always_filter: {
+#     filters: {
+#       field: funnel.event_time
+#       value: "30 days ago for 30 days"
+#     }
+#   }
     join: primary_order {
     from: magento_sales_flat_order
     type: left_outer
@@ -1530,7 +1568,7 @@ explore: magento_kiwicrate_subscription {
    join: order_analytics {
     from: magento_kiwicrate_order_analytics
     type:  left_outer
-    sql_on: order_analytics.order_id=primary_order.entity_id and order_analytics.type = 'order' ;;
+    sql_on: magento_kiwicrate_order_analytics.order_id=primary_order.entity_id and magento_kiwicrate_order_analytics.type = 'order' ;;
     required_joins: [primary_order]
     relationship: many_to_many
     }
@@ -1540,6 +1578,17 @@ explore: magento_kiwicrate_subscription {
     sql_on:  ${magento_customer_entity.entity_id}=${magento_kiwicrate_subscription.customer_id} ;;
     relationship:  many_to_many
     }
+#     join: funnel {
+#     from: funnel
+#     sql_on: ${primary_order.created_date}=${funnel.event_date} ;;
+#     relationship: one_to_one
+#   }
+#   join: pages {
+#     from:  pages
+#     sql_on: ${pages.timestamp_date}=${primary_order.created_date} ;;
+#     required_joins: [magento_sales_flat_order]
+#     relationship: one_to_one
+#   }
   }
 
 explore: magento_sales_flat_order_item {
@@ -1867,6 +1916,16 @@ explore: amp_pages {
 #     sql_on: ${purchase_widget_choose_line.user_id} = ${users.id} ;;
 #     relationship: many_to_one
 #   }
+#   join: purchase_widget_subscription_length {
+#     type: left_outer
+#     sql_on: ${purchase_widget_choose_line.anonymous_id}=${purchase_widget_subscription_length.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: purchase_widget_customize {
+#     type: left_outer
+#     sql_on: ${purchase_widget_choose_line.anonymous_id}=${purchase_widget_customize.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
 # }
 #
 # explore: purchase_widget_choose_line_view {
@@ -1877,13 +1936,13 @@ explore: amp_pages {
 #   }
 # }
 #
-explore: purchase_widget_customize {
-  join: users {
-    type: left_outer
-    sql_on: ${purchase_widget_customize.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+# explore: purchase_widget_customize {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${purchase_widget_customize.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 #
 # explore: purchase_widget_customize_view {
 #   join: users {
@@ -1893,13 +1952,18 @@ explore: purchase_widget_customize {
 #   }
 # }
 #
-# explore: purchase_widget_subscription_length {
-#   join: users {
-#     type: left_outer
-#     sql_on: ${purchase_widget_subscription_length.user_id} = ${users.id} ;;
-#     relationship: many_to_one
-#   }
-# }
+explore: purchase_widget_subscription_length {
+  join: users {
+    type: left_outer
+    sql_on: ${purchase_widget_subscription_length.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: purchase_widget_customize {
+    type: left_outer
+    sql_on: ${purchase_widget_subscription_length.anonymous_id}=${purchase_widget_customize.anonymous_id} ;;
+    relationship: many_to_many
+  }
+}
 #
 # explore: purchase_widget_subscription_length_view {
 #   join: users {

@@ -108,39 +108,39 @@ view: magento_kiwicrate_subscription {
     sql: ${TABLE}.first_crate_to_me ;;
   }
 
-  dimension: flags {
-    type: number
-    sql: ${TABLE}.flags ;;
-  }
-
-  dimension: free_iterations {
-    type: number
-    sql: ${TABLE}.free_iterations ;;
-  }
-
-  dimension: free_sibling_iterations {
-    type: number
-    sql: ${TABLE}.free_sibling_iterations ;;
-  }
-
-  dimension: giftee_access_level {
-    type: number
-    sql: ${TABLE}.giftee_access_level ;;
-  }
-
-  dimension_group: giftee_access_start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.giftee_access_start_date ;;
-  }
+#   dimension: flags {
+#     type: number
+#     sql: ${TABLE}.flags ;;
+#   }
+#
+#   dimension: free_iterations {
+#     type: number
+#     sql: ${TABLE}.free_iterations ;;
+#   }
+#
+#   dimension: free_sibling_iterations {
+#     type: number
+#     sql: ${TABLE}.free_sibling_iterations ;;
+#   }
+#
+#   dimension: giftee_access_level {
+#     type: number
+#     sql: ${TABLE}.giftee_access_level ;;
+#   }
+#
+#   dimension_group: giftee_access_start {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.giftee_access_start_date ;;
+#   }
 
   dimension: giftee_customer_id {
     type: number
@@ -157,19 +157,19 @@ view: magento_kiwicrate_subscription {
     sql: ${TABLE}.is_dlx ;;
   }
 
-  dimension_group: iterate {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.iterate_date ;;
-  }
+#   dimension_group: iterate {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.iterate_date ;;
+#   }
 
   dimension: iterations {
     type: number
@@ -204,15 +204,15 @@ view: magento_kiwicrate_subscription {
     sql: ${TABLE}.last_shipped_date ;;
   }
 
-  dimension: old_iterations {
-    type: number
-    sql: ${TABLE}.old_iterations ;;
-  }
-
-  dimension: period_type {
-    type: number
-    sql: ${TABLE}.period_type ;;
-  }
+#   dimension: old_iterations {
+#     type: number
+#     sql: ${TABLE}.old_iterations ;;
+#   }
+#
+#   dimension: period_type {
+#     type: number
+#     sql: ${TABLE}.period_type ;;
+#   }
 
   dimension: primary_order_id {
     type: number
@@ -234,15 +234,15 @@ view: magento_kiwicrate_subscription {
     sql: coalesce(${TABLE}.queue_position,0) ;;
   }
 
-  dimension: received_before {
-    type: number
-    sql: ${TABLE}.received_before ;;
-  }
-
-  dimension: remind_later {
-    type: number
-    sql: ${TABLE}.remind_later ;;
-  }
+#   dimension: received_before {
+#     type: number
+#     sql: ${TABLE}.received_before ;;
+#   }
+#
+#   dimension: remind_later {
+#     type: number
+#     sql: ${TABLE}.remind_later ;;
+#   }
 
   dimension: shipping_address_id {
     type: number
@@ -317,6 +317,10 @@ view: magento_kiwicrate_subscription {
       when: {
         sql: ${TABLE}.store_id = 7 ;;
         label: "Atlas"
+      }
+      when: {
+        sql: ${TABLE}.store_id = 13 ;;
+        label: "Eureka"
       }
     }
   }
@@ -422,7 +426,12 @@ view: magento_kiwicrate_subscription {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql_distinct_key: ${id} ;;
     drill_fields: [id]
+  }
+  measure: distinct_queues {
+    type: count_distinct
+    sql: if(${TABLE}.queue_id IS NULL, ${TABLE}.id,${TABLE}.queue_id) ;;
   }
 }

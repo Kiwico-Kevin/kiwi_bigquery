@@ -12,45 +12,20 @@ view: purchase_widget_subscription_length {
     sql: ${TABLE}.anonymous_id ;;
   }
 
-  dimension: context_campaign_camp_20aign {
-    type: string
-    sql: ${TABLE}.context_campaign_camp_20aign ;;
-  }
 
-  dimension: context_campaign_campaign_5c {
-    type: string
-    sql: ${TABLE}.context_campaign_campaign_5c ;;
-  }
-
-  dimension: context_campaign_campaingn {
-    type: string
-    sql: ${TABLE}.context_campaign_campaingn ;;
-  }
 
   dimension: context_campaign_content {
     type: string
     sql: ${TABLE}.context_campaign_content ;;
   }
 
-  dimension: context_campaign_cot {
-    type: string
-    sql: ${TABLE}.context_campaign_cot ;;
-  }
 
-  dimension: context_campaign_how_20to_20create_20privacy_20on_20condo_20bacony_20rulessource {
-    type: string
-    sql: ${TABLE}.context_campaign_how_20to_20create_20privacy_20on_20condo_20bacony_20rulessource ;;
-  }
 
   dimension: context_campaign_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
   }
 
-  dimension: context_campaign_medium_5c {
-    type: string
-    sql: ${TABLE}.context_campaign_medium_5c ;;
-  }
 
   dimension: context_campaign_name {
     type: string
@@ -62,19 +37,10 @@ view: purchase_widget_subscription_length {
     sql: ${TABLE}.context_campaign_source ;;
   }
 
-  dimension: context_campaign_source_5c {
-    type: string
-    sql: ${TABLE}.context_campaign_source_5c ;;
-  }
 
   dimension: context_campaign_term {
     type: string
     sql: ${TABLE}.context_campaign_term ;;
-  }
-
-  dimension: context_campaign_term_5c {
-    type: string
-    sql: ${TABLE}.context_campaign_term_5c ;;
   }
 
   dimension: context_ip {
@@ -142,66 +108,12 @@ view: purchase_widget_subscription_length {
     sql: ${TABLE}.item_number ;;
   }
 
-  dimension_group: loaded {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.loaded_at ;;
-  }
-
-  dimension_group: original_timestamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.original_timestamp ;;
-  }
 
   dimension: product_line {
     type: string
     sql: ${TABLE}.product_line ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.received_at ;;
-  }
-
-  dimension_group: sent {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.sent_at ;;
-  }
 
   dimension: sub_length {
     type: number
@@ -228,23 +140,28 @@ view: purchase_widget_subscription_length {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
-  }
+#   dimension_group: uuid_ts {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.uuid_ts ;;
+#   }
 
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: distinct_users {
+    type: count_distinct
+    sql: ${anonymous_id} ;;
   }
 
   # ----- Sets of fields for drilling ------
