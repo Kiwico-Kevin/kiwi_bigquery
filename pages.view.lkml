@@ -572,6 +572,13 @@ view: pages {
     sql: ${TABLE}.path ;;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}.category ;;
+  }
+
+
+
   dimension: path_type {
     sql:
       CASE
@@ -588,6 +595,8 @@ view: pages {
         WHEN ${path} LIKE '/koala' THEN 'Koala Page'
         WHEN ${path} LIKE '/doodle' THEN 'Doodle Page'
         WHEN ${path} LIKE '/cricket' THEN 'Cricket Page'
+        WHEN ${path} LIKE '/eureka' THEN 'Eureka Page'
+        WHEN ${path} LIKE '/atlas' THEN 'Atlas Page'
         WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
         WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
         WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
@@ -598,11 +607,26 @@ view: pages {
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
         WHEN ${path} LIKE '/survey%' THEN 'Survey'
-        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter' THEN 'Marketing'
+        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
         WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
         ELSE 'Other'
     END;;
   }
+
+  dimension: path_funnel {
+    type:  yesno
+    sql: ${path_type} LIKE 'Homepage' OR
+    ${path_type} LIKE 'Kiwi Page' OR
+    ${path_type} LIKE 'Koala Page' OR
+    ${path_type} LIKE 'Doodle Page' OR
+    ${path_type} LIKE 'Cricket Page' OR
+    ${path_type} LIKE 'Eureka Page' OR
+    ${path_type} LIKE 'Atlas Page' OR
+    ${path_type} LIKE 'Tinker Page' OR
+    ${path_type} LIKE 'Store' OR
+    ${path_type} LIKE 'Checkout' OR
+    ${path_type} LIKE 'Marketing';;
+    }
 
 #   dimension_group: received {
 #     type: time
