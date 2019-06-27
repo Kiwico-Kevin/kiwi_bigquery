@@ -213,6 +213,26 @@ view: pages {
     sql: ${TABLE}.context_campaign_name ;;
   }
 
+  dimension: campaign_type {
+    sql:
+     CASE
+          WHEN ${TABLE}.context_campaign_name LIKE '%welcome%' AND ${TABLE}.context_campaign_medium = 'email' THEN 'Welcome Series'
+          WHEN ${TABLE}.context_campaign_source LIKE '%Aban' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.context_campaign_content LIKE '%aban' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Abandoned Cart'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lgx%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_exsub'
+          WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_leadgen'
+          WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'promo_active_sub'
+          WHEN ${TABLE}.context_campaign_name LIKE 'rn%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.context_campaign_name LIKE 'gifterrenew%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Gift Renew'
+          WHEN ${TABLE}.context_campaign_name LIKE 'renew-r%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Extention Offer'
+          WHEN ${TABLE}.context_campaign_name LIKE 'givethanks%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Thank You Card'
+          WHEN ${TABLE}.context_campaign_name LIKE 'ship-conf%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Shipping Confirmation'
+          WHEN ${TABLE}.context_campaign_name LIKE '%survey%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Survey'
+          WHEN ${TABLE}.context_campaign_name LIKE 'sgrdraf%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Refer a Friend'
+          ELSE NULL
+     END;;
+    }
+
   dimension: utm_source {
     type: string
     sql: ${TABLE}.context_campaign_source ;;
@@ -552,6 +572,13 @@ view: pages {
     sql: ${TABLE}.path ;;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}.category ;;
+  }
+
+
+
   dimension: path_type {
     sql:
       CASE
@@ -568,6 +595,8 @@ view: pages {
         WHEN ${path} LIKE '/koala' THEN 'Koala Page'
         WHEN ${path} LIKE '/doodle' THEN 'Doodle Page'
         WHEN ${path} LIKE '/cricket' THEN 'Cricket Page'
+        WHEN ${path} LIKE '/eureka' THEN 'Eureka Page'
+        WHEN ${path} LIKE '/atlas' THEN 'Atlas Page'
         WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
         WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
         WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
@@ -578,11 +607,26 @@ view: pages {
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
         WHEN ${path} LIKE '/survey%' THEN 'Survey'
-        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter' THEN 'Marketing'
+        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
         WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
         ELSE 'Other'
     END;;
   }
+
+  dimension: path_funnel {
+    type:  yesno
+    sql: ${path_type} LIKE 'Homepage' OR
+    ${path_type} LIKE 'Kiwi Page' OR
+    ${path_type} LIKE 'Koala Page' OR
+    ${path_type} LIKE 'Doodle Page' OR
+    ${path_type} LIKE 'Cricket Page' OR
+    ${path_type} LIKE 'Eureka Page' OR
+    ${path_type} LIKE 'Atlas Page' OR
+    ${path_type} LIKE 'Tinker Page' OR
+    ${path_type} LIKE 'Store' OR
+    ${path_type} LIKE 'Checkout' OR
+    ${path_type} LIKE 'Marketing';;
+    }
 
 #   dimension_group: received {
 #     type: time
