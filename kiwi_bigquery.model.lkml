@@ -540,6 +540,8 @@ explore: pricing_experiment {
   }
 }
 
+explore: page_universal_id {}
+
 # explore: completed_order_view {
 #   join: users {
 #     type: left_outer
