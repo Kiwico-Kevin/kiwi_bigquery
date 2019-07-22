@@ -18,7 +18,7 @@ view: page_universal_id {
       )
       SELECT DISTINCT
       r0.alias
-      , LPAD(MD5(COALESCE(
+      , COALESCE(
               r16.next_alias
             , r16.alias
             , r15.alias
@@ -37,7 +37,7 @@ view: page_universal_id {
             , r2.alias
             , r1.alias
             , r0.alias
-          )),15) AS universal_alias
+          ) AS universal_alias
           FROM realiases AS r0
           LEFT JOIN realiases r1 ON r0.next_alias = r1.alias
           LEFT JOIN realiases r2 ON r1.next_alias = r2.alias
