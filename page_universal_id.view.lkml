@@ -56,7 +56,7 @@ view: page_universal_id {
           LEFT JOIN realiases r15 ON r14.next_alias = r15.alias
           LEFT JOIN realiases r16 ON r15.next_alias = r16.alias
       )
-      SELECT Page.anonymous_id,Page.context_campaign_medifaum,Page.session_id,Page.timestamp,UNI.universal_alias
+      SELECT Page.anonymous_id,Page.context_campaign_medium,Page.session_id,Page.timestamp,UNI.universal_alias
       FROM `kiwi-data-warehouse.javascript.pages` Page
       LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
        ;;
