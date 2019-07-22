@@ -60,6 +60,7 @@ view: page_universal_id_New {
       FROM `kiwi-data-warehouse.javascript.pages` Page
       LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
  ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {
