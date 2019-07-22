@@ -584,6 +584,7 @@ explore: pricing_experiment {
 }
 
 explore: page_universal_id {}
+explore: page_universal_id_New {}
 
 # explore: completed_order_view {
 #   join: users {
