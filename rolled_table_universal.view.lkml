@@ -4,6 +4,7 @@ view: rolled_table_universal {
       last_value(context_campaign_medium ) OVER (PARTITION BY Pages.New_Universal_id ORDER BY timestamp ASC) AS last_medium
       from (select * from `kiwi-data-warehouse.looker_scratch.LR_5HK2ONQ23YCNRMEOA8UJH_pages_comp_order` limit 100) Pages
        ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {
