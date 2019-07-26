@@ -1,6 +1,6 @@
 view: rolled_table_universal {
   derived_table: {
-    sql: SELECT distinct Pages.New_Universal_id, first_value(context_campaign_medium) OVER (PARTITION BY Pages.New_Universal_id ORDER BY timestamp ASC) AS first_medium,
+    sql: SELECT distinct Pages.New_Universal_id,
       last_value(context_campaign_medium ) OVER (PARTITION BY Pages.New_Universal_id ORDER BY timestamp ASC) AS last_medium
       from  `kiwi-data-warehouse.looker_scratch.LR_5HK2ONQ23YCNRMEOA8UJH_pages_comp_order` Pages
        ;;
