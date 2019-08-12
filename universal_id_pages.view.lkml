@@ -4,7 +4,7 @@ view: universal_id_pages {
       (
         SELECT Page.*,
         Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
-        FROM `kiwi-data-warehouse.looker_scratch.LR_5HL1RK5ZGK1CN8UPEAB0B_page_universal_id_New` Page
+        FROM `kiwi-data-warehouse.looker_scratch.LR_5H41YDS6R779GZOGQZZLF_page_universal_id_New` Page
         INNER JOIN
         (
           SELECT A.anonymous_id
@@ -12,7 +12,7 @@ view: universal_id_pages {
           (
             SELECT Page.*,
             Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
-            FROM `kiwi-data-warehouse.looker_scratch.LR_5HL1RK5ZGK1CN8UPEAB0B_page_universal_id_New` Page
+            FROM `kiwi-data-warehouse.looker_scratch.LR_5H41YDS6R779GZOGQZZLF_page_universal_id_New` Page
           )A
           group by A.anonymous_id
           having count(distinct A.New_Universal_id)=1
