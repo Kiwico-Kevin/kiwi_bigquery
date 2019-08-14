@@ -607,6 +607,7 @@ view: pages {
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
         WHEN ${path} LIKE '/survey%' THEN 'Survey'
+        WHEN ${path} LIKE '/slime%' THEN 'SEO Landing Page'
         WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
         WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
         ELSE 'Other'
