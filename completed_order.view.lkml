@@ -91,10 +91,10 @@ view: completed_order {
     sql: ${TABLE}.oldrevenue ;;
   }
 
-#   dimension: order_id {
-#     type: string
-#     sql: ${TABLE}.order_id ;;
-#   }
+  dimension: order_number {
+    type: string
+    sql: ${TABLE}.order_id ;;
+  }
 
 #   dimension_group: original_timestamp {
 #     type: time
@@ -134,6 +134,53 @@ view: completed_order {
     value_format: "$#,##0.00"
     sql: ${TABLE}.revenue ;;
   }
+
+  measure: estimated_revenue {
+    type: sum_distinct
+    value_format: "$#,##0.00"
+    sql: ${TABLE}.new_revenue ;;
+  }
+
+  dimension: utm_ad{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_ad')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_adset{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_adset')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_content{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_content')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_medium{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_medium')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_campaign{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_name')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_placement{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_placement')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_source{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_source')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_term{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_term')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
 
 #   dimension_group: sent {
 #     type: time
@@ -216,6 +263,11 @@ view: completed_order {
     sql: ${order_id} ;;
   }
 
+  measure: unique_customers {
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
   dimension: order_id{
     sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].order_id')AS STRING) ;;
     group_label: "Order Info"
@@ -236,6 +288,17 @@ view: completed_order {
     sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].gift_message')AS STRING) ;;
     group_label: "Order Info"
   }
+
+  dimension: customer_id{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].customer_id')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: customer_group{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].customer_group')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
   dimension: first_crate_to_me{
     sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].first_crate_to_me')AS STRING) ;;
     group_label: "Order Info"

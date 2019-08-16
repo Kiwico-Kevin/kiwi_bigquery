@@ -20,16 +20,19 @@ view: ab_tasty_view {
   dimension: utm_ad {
     type: string
     sql: ${TABLE}.context_campaign_ad ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_adset {
     type: string
     sql: ${TABLE}.context_campaign_adset ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_content {
     type: string
     sql: ${TABLE}.context_campaign_content ;;
+    group_label: "UTM Variables"
   }
 
 #   dimension: context_campaign_expid {
@@ -40,26 +43,31 @@ view: ab_tasty_view {
   dimension: utm_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_campaign {
     type: string
     sql: ${TABLE}.context_campaign_name ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_placement {
     type: string
     sql: ${TABLE}.context_campaign_placement ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_source {
     type: string
     sql: ${TABLE}.context_campaign_source ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_term {
     type: string
     sql: ${TABLE}.context_campaign_term ;;
+    group_label: "UTM Variables"
   }
 
   dimension: context_ip {
@@ -102,9 +110,57 @@ view: ab_tasty_view {
     sql: ${TABLE}.context_page_url ;;
   }
 
-  dimension: context_user_agent {
+  dimension: user_agent {
     type: string
     sql: ${TABLE}.context_user_agent ;;
+  }
+
+  dimension: browser {
+    sql:
+      CASE
+        WHEN ${user_agent} LIKE '%Firefox/%' THEN 'Firefox'
+        WHEN ${user_agent} LIKE '%Chrome/%' OR ${user_agent} LIKE '%CriOS%' THEN 'Chrome'
+        WHEN ${user_agent} LIKE '%MSIE %' THEN 'IE'
+        WHEN ${user_agent} LIKE '%MSIE+%' THEN 'IE'
+        WHEN ${user_agent} LIKE '%Trident%' THEN 'IE'
+        WHEN ${user_agent} LIKE '%iPhone%' THEN 'iPhone Safari'
+        WHEN ${user_agent} LIKE '%iPad%' THEN 'iPad Safari'
+        WHEN ${user_agent} LIKE '%Opera%' THEN 'Opera'
+        WHEN ${user_agent} LIKE '%BlackBerry%' AND ${user_agent} LIKE '%Version/%' THEN 'BlackBerry WebKit'
+        WHEN ${user_agent} LIKE '%BlackBerry%' THEN 'BlackBerry'
+        WHEN ${user_agent} LIKE '%Android%' THEN 'Android'
+        WHEN ${user_agent} LIKE '%Safari%' THEN 'Safari'
+        WHEN ${user_agent} LIKE '%bot%' THEN 'Bot'
+        WHEN ${user_agent} LIKE '%http://%' THEN 'Bot'
+        WHEN ${user_agent} LIKE '%www.%' THEN 'Bot'
+        WHEN ${user_agent} LIKE '%Wget%' THEN 'Bot'
+        WHEN ${user_agent} LIKE '%curl%' THEN 'Bot'
+        WHEN ${user_agent} LIKE '%urllib%' THEN 'Bot'
+        ELSE 'Unknown'
+      END;;
+  }
+
+  dimension: device {
+    sql:
+      CASE
+        WHEN ${user_agent} LIKE '%iPad%' THEN 'iPad'
+        WHEN ${user_agent} LIKE '%iPhone%' THEN 'iPhone'
+        WHEN ${user_agent} LIKE '%Android%' THEN 'Android'
+        WHEN ${user_agent} LIKE '%Mac OS X%' THEN 'OS X'
+        WHEN ${user_agent} LIKE '%X11%' THEN 'Linux'
+        WHEN ${user_agent} LIKE '%Windows%' THEN 'Windows'
+        ELSE 'Other'
+    END;;
+  }
+
+  dimension: device_group {
+    sql:
+      CASE
+        WHEN ${device} = 'iPhone' or ${device} = 'Android' THEN 'Mobile'
+        WHEN ${device} = 'OS X' or ${device} = 'Linux' or ${device} = 'Windows' THEN 'Desktop'
+        WHEN ${device} = 'iPad' THEN 'Tablet'
+        ELSE 'Other'
+    END;;
   }
 
 #   dimension: event {
@@ -226,8 +282,13 @@ view: ab_tasty_view {
     sql: ${TABLE}.variation_name ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, variation_name, test_name]
+#   measure: count {
+#     type: count
+#     drill_fields: [id, variation_name, test_name]
+#   }
+  measure: distinct_users {
+    type: count_distinct
+    sql: ${anonymous_id} ;;
   }
+
 }
