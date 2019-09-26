@@ -873,6 +873,11 @@ explore: page_universal_id_New {}
 # }
 #
 explore: ab_tasty_view {
+  join: purchase_widget_customize {
+    type:  left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
+    relationship: many_to_many
+  }
 #   join: users {
 #     type: left_outer
 #     sql_on: ${email_submitted.user_id} = ${users.id} ;;
