@@ -570,18 +570,18 @@ explore: completed_order {
   }
 }
 
-explore: pricing_experiment {
-  join: aliases {
-    type: left_outer
-    sql_on: ${pricing_experiment.anonymous_id} = ${aliases.anonymous_id} ;;
-    relationship: many_to_one
-  }
-  join: completed_order {
-    type: left_outer
-    sql_on: ${pricing_experiment.anonymous_id} = ${completed_order.anonymous_id} ;;
-    relationship: many_to_many
-  }
-}
+# explore: pricing_experiment {
+#   join: aliases {
+#     type: left_outer
+#     sql_on: ${pricing_experiment.anonymous_id} = ${aliases.anonymous_id} ;;
+#     relationship: many_to_one
+#   }
+#   join: completed_order {
+#     type: left_outer
+#     sql_on: ${pricing_experiment.anonymous_id} = ${completed_order.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+# }
 
 explore: page_universal_id {}
 explore: page_universal_id_New {}
@@ -872,25 +872,30 @@ explore: page_universal_id_New {}
 #   }
 # }
 #
-explore: experiment_viewed {
-  join: users {
-    type: left_outer
-    sql_on: ${experiment_viewed.user_id} = ${users.id} ;;
-    relationship: many_to_one
+explore: ab_tasty_view {
+  join: purchase_widget_customize {
+    type:  left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
+    relationship: many_to_many
   }
+#   join: users {
+#     type: left_outer
+#     sql_on: ${email_submitted.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
   join: pages {
     type: left_outer
-    sql_on: ${experiment_viewed.anonymous_id} = ${pages.anonymous_id} ;;
+    sql_on: ${ab_tasty_view.anonymous_id} = ${pages.anonymous_id} ;;
     relationship: many_to_many
   }
   join: completed_order {
     type: left_outer
-    sql_on: ${experiment_viewed.anonymous_id} = ${completed_order.anonymous_id} ;;
+    sql_on: ${ab_tasty_view.anonymous_id} = ${completed_order.anonymous_id} ;;
     relationship: many_to_many
   }
   join: email_submitted {
     type: left_outer
-    sql_on: ${experiment_viewed.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    sql_on: ${ab_tasty_view.anonymous_id} = ${email_submitted.anonymous_id} ;;
     relationship: many_to_many
   }
 }

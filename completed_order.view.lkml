@@ -1,5 +1,5 @@
 view: completed_order {
-  sql_table_name: javascript.completed_order ;;
+  sql_table_name: javascript.completed_order_view ;;
 
   dimension: id {
     primary_key: yes
@@ -91,7 +91,7 @@ view: completed_order {
     sql: ${TABLE}.oldrevenue ;;
   }
 
-  dimension: order_id {
+  dimension: order_number {
     type: string
     sql: ${TABLE}.order_id ;;
   }
@@ -134,6 +134,53 @@ view: completed_order {
     value_format: "$#,##0.00"
     sql: ${TABLE}.revenue ;;
   }
+
+  measure: estimated_revenue {
+    type: sum_distinct
+    value_format: "$#,##0.00"
+    sql: ${TABLE}.new_revenue ;;
+  }
+
+  dimension: utm_ad{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_ad')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_adset{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_adset')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_content{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_content')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_medium{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_medium')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_campaign{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_name')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_placement{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_placement')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_source{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_source')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
+  dimension: utm_term{
+    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_term')AS STRING) ;;
+    group_label: "Order Analytics"
+  }
+
 
 #   dimension_group: sent {
 #     type: time
@@ -214,6 +261,101 @@ view: completed_order {
   measure: distinct_orders {
     type: count_distinct
     sql: ${order_id} ;;
+  }
+
+  measure: unique_customers {
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
+  dimension: order_id{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].order_id')AS STRING) ;;
+    group_label: "Order Info"
+#     label: "Description"
+  }
+
+  dimension: order_type{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].order_type')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: checkout_method{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].checkout_method')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: gift_message{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].gift_message')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: customer_id{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].customer_id')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: customer_group{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].customer_group')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: first_crate_to_me{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].first_crate_to_me')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: sku{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].sku')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: category{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].category')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: store{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].store')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: sub_length{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].sub_length')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: sub_info{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].sub_info')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: description{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].description')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: is_gift{
+    sql: CAST(JSON_EXTRACT(${TABLE}.cart_items, '$[0].is_gift')AS STRING) ;;
+    group_label: "First Item of Order Info"
+  }
+
+  dimension: shipping_country{
+    sql: CAST(JSON_EXTRACT(${TABLE}.address_info, '$[0].shipping_country')AS STRING) ;;
+    group_label: "Shipping Info"
+  }
+
+  dimension: shipping_state{
+    sql: CAST(JSON_EXTRACT(${TABLE}.address_info, '$[0].shipping_state')AS STRING) ;;
+    group_label: "Shipping Info"
+  }
+
+  dimension: shipping_method{
+    sql: CAST(JSON_EXTRACT(${TABLE}.shipping_info, '$[0].shipping_method')AS STRING) ;;
+    group_label: "Shipping Info"
+  }
+
+  dimension: payment_method{
+    sql: CAST(JSON_EXTRACT(${TABLE}.payment_info, '$[0].payment_method')AS STRING) ;;
   }
 
   # ----- Sets of fields for drilling ------

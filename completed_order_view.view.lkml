@@ -7,6 +7,16 @@ view: completed_order_view {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: checkout_method {
+    type: string
+    sql:
+    CASE
+        WHEN ${TABLE}.order_info LIKE '%"checkout_method":"register"%' THEN 'Register'
+        WHEN ${TABLE}.order_info LIKE '%"checkout_method":"customer"%' THEN 'Customer'
+        ELSE 'Other'
+     END;;
+  }
+
   dimension: affiliation {
     type: string
     sql: ${TABLE}.affiliation ;;

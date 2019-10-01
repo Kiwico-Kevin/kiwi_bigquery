@@ -184,11 +184,13 @@ view: pages {
   dimension: utm_content {
     type: string
     sql: ${TABLE}.context_campaign_content ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_medium {
     type: string
     sql: ${TABLE}.context_campaign_medium ;;
+    group_label: "UTM Variables"
   }
 
   dimension: medium_type {
@@ -207,10 +209,12 @@ view: pages {
           WHEN ${TABLE}.context_campaign_medium = '(none)' OR ${TABLE}.context_campaign_medium IS NULL THEN 'direct'
           ELSE ${TABLE}.context_campaign_medium
     END;;
+    group_label: "UTM Variables"
   }
   dimension: utm_campaign {
     type: string
     sql: ${TABLE}.context_campaign_name ;;
+    group_label: "UTM Variables"
   }
 
   dimension: campaign_type {
@@ -231,16 +235,19 @@ view: pages {
           WHEN ${TABLE}.context_campaign_name LIKE 'sgrdraf%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'Refer a Friend'
           ELSE NULL
      END;;
+    group_label: "UTM Variables"
     }
 
   dimension: utm_source {
     type: string
     sql: ${TABLE}.context_campaign_source ;;
+    group_label: "UTM Variables"
   }
 
   dimension: utm_term {
     type: string
     sql: ${TABLE}.context_campaign_term ;;
+    group_label: "UTM Variables"
   }
 
   dimension: context_ip {
@@ -251,16 +258,19 @@ view: pages {
   dimension: facebook_adname {
     type: string
     sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_content, NULL);;
+    group_label: "UTM Variables"
   }
 
   dimension: facebook_campaign {
     type: string
     sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_term, NULL);;
+    group_label: "UTM Variables"
   }
 
   dimension: facebook_adset {
     type: string
     sql: if(${TABLE}.context_campaign_medium = 'SMM', ${TABLE}.context_campaign_campaign, NULL);;
+    group_label: "UTM Variables"
   }
 #
 #   dimension: context_campaign_medium_20_20_20_20 {
@@ -607,6 +617,7 @@ view: pages {
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
         WHEN ${path} LIKE '/survey%' THEN 'Survey'
+        WHEN ${path} LIKE '/slime%' THEN 'SEO Landing Page'
         WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
         WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
         ELSE 'Other'
