@@ -22,7 +22,6 @@ view: universal_id_pages {
 
       select * from Page
        ;;
-    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {

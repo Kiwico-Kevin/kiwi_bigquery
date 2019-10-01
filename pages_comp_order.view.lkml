@@ -13,7 +13,6 @@ view: pages_comp_order {
       on Pages.New_Universal_id=ComOrder.New_Universal_id
       where date(Pages.timestamp)<='2019-06-30'
        ;;
-    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {
