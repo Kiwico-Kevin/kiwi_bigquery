@@ -21,6 +21,7 @@ view: universal_id_pages {
       )
 
       select * from Page
+
        ;;
   }
 
