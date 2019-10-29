@@ -61,6 +61,7 @@ view: universal_id_new {
       LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
     sql_trigger_value: SELECT CURRENT_DATE()
  ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
 
     }
 
