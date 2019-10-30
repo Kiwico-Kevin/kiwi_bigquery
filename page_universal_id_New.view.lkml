@@ -59,8 +59,8 @@ view: page_universal_id_New {
       SELECT Page.anonymous_id,Page.context_campaign_medium,Page.session_id,Page.timestamp,UNI.universal_alias
       FROM `kiwi-data-warehouse.javascript.pages` Page
       LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
-    sql_trigger_value: SELECT CURDATE()
  ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
 
   }
 
