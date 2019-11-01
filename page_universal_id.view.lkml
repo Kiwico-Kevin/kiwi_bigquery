@@ -1,6 +1,6 @@
 view: page_universal_id {
-  derived_table: {
-    sql: with Universal_mapping as (
+derived_table: {
+  sql: with Universal_mapping as (
       with realiases as (
         select distinct A.*
         from
@@ -8,12 +8,12 @@ view: page_universal_id {
           SELECT
             anonymous_id AS alias,
             user_id AS next_alias
-          FROM `kiwi-data-warehouse.javascript.tracks`
+          FROM (select * from `kiwi-data-warehouse.javascript.tracks` where date(timestamp)>='2017-11-01')A
           UNION ALL
           SELECT
             previous_id,
             user_id
-          FROM `kiwi-data-warehouse.javascript.aliases_view`
+          FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2017-11-01')B
         )A
       )
       SELECT DISTINCT
@@ -59,40 +59,43 @@ view: page_universal_id {
       SELECT Page.anonymous_id,Page.context_campaign_medium,Page.session_id,Page.timestamp,UNI.universal_alias
       FROM `kiwi-data-warehouse.javascript.pages` Page
       LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
-       ;;
-  }
+ ;;
+  sql_trigger_value: SELECT CURRENT_DATE() ;;
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
+}
 
-  dimension: anonymous_id {
-    type: string
-    sql: ${TABLE}.anonymous_id ;;
-  }
 
-  dimension: context_campaign_medium {
-    type: string
-    sql: ${TABLE}.context_campaign_medium ;;
-  }
+measure: count {
+  type: count
+  drill_fields: [detail*]
+}
 
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
-  }
+dimension: anonymous_id {
+  type: string
+  sql: ${TABLE}.anonymous_id ;;
+}
 
-  dimension_group: timestamp {
-    type: time
-    sql: ${TABLE}.timestamp ;;
-  }
+dimension: context_campaign_medium {
+  type: string
+  sql: ${TABLE}.context_campaign_medium ;;
+}
 
-  dimension: universal_alias {
-    type: string
-    sql: ${TABLE}.universal_alias ;;
-  }
+dimension: session_id {
+  type: string
+  sql: ${TABLE}.session_id ;;
+}
 
-  set: detail {
-    fields: [anonymous_id, context_campaign_medium, session_id, timestamp_time, universal_alias]
-  }
+dimension_group: timestamp {
+  type: time
+  sql: ${TABLE}.timestamp ;;
+}
+
+dimension: universal_alias {
+  type: string
+  sql: ${TABLE}.universal_alias ;;
+}
+
+set: detail {
+  fields: [anonymous_id, context_campaign_medium, session_id, timestamp_time, universal_alias]
+}
 }
