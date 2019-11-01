@@ -8,12 +8,12 @@ view: page_universal_id_New {
           SELECT
             anonymous_id AS alias,
             user_id AS next_alias
-          FROM `kiwi-data-warehouse.javascript.tracks`
+          FROM (select * from `kiwi-data-warehouse.javascript.tracks` where date(timestamp)>='2017-11-01')A
           UNION ALL
           SELECT
             previous_id,
             user_id
-          FROM `kiwi-data-warehouse.javascript.aliases_view`
+          FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2017-11-01')B
         )A
       )
       SELECT DISTINCT
