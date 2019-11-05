@@ -4,14 +4,7 @@ view: a02_anonymous_id_recursive_joins {
           SELECT DISTINCT
       r0.alias
       , COALESCE(
-              r16.next_alias
-            , r16.alias
-            , r15.alias
-            , r14.alias
-            , r13.alias
-            , r12.alias
-            , r11.alias
-            , r10.alias
+              r9.next_alias
             , r9.alias
             , r8.alias
             , r7.alias
@@ -33,13 +26,6 @@ view: a02_anonymous_id_recursive_joins {
           LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r7 ON r6.next_alias = r7.alias
           LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r8 ON r7.next_alias = r8.alias
           LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r9 ON r8.next_alias = r9.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r10 ON r9.next_alias = r10.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r11 ON r10.next_alias = r11.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r12 ON r11.next_alias = r12.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r13 ON r12.next_alias = r13.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r14 ON r13.next_alias = r14.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r15 ON r14.next_alias = r15.alias
-          LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r16 ON r15.next_alias = r16.alias
  ;;
     sql_trigger_value: SELECT CURRENT_DATE() ;;
 
