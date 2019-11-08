@@ -60,8 +60,6 @@ view: page_universal_id_New {
       FROM (select * from `kiwi-data-warehouse.javascript.pages` where date(timestamp)>='2017-11-01') Page
       LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` UNI On Page.anonymous_id=UNI.alias
  ;;
-    sql_trigger_value: SELECT CURRENT_DATE() ;;
-
   }
 
 
