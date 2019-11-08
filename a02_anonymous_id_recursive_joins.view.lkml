@@ -27,8 +27,7 @@ view: a02_anonymous_id_recursive_joins {
           LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r8 ON r7.next_alias = r8.alias
           LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` r9 ON r8.next_alias = r9.alias
  ;;
-
-
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {
