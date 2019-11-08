@@ -2,7 +2,7 @@ view: a03_pages_universal_id {
   derived_table: {
     sql:
       SELECT Page.anonymous_id,Page.context_campaign_medium,Page.session_id,Page.timestamp,UNI.universal_alias
-      FROM `kiwi-data-warehouse.javascript.pages` Page
+      FROM (select * from `kiwi-data-warehouse.javascript.pages` where date(timestamp)>='2017-11-01') Page
       LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HGGDPHPTV2FH779FBBVH_a02_anonymous_id_recursive_joins` UNI On Page.anonymous_id=UNI.alias
  ;;
     sql_trigger_value: SELECT CURRENT_DATE() ;;
