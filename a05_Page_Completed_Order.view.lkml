@@ -1,17 +1,18 @@
 view: a05_Page_Completed_Order {
   derived_table: {
     sql: SELECT Pages.*,case when ComOrder.New_Universal_id is null then 0 else 1 end as order_flag
-      from looker_scratch.LR_5HZXN3SI6ABZ8PI97M9AB_universal_id_pages Pages
+      from ${a04_Anony_Remover.SQL_TABLE_NAME}  Pages
       left join
       (
         Select Page.New_Universal_id
         from javascript.completed_order ComOrder1
-        inner join looker_scratch.LR_5HZXN3SI6ABZ8PI97M9AB_universal_id_pages Page
+        inner join ${a04_Anony_Remover.SQL_TABLE_NAME}  Page
         on Page.Session_id=ComOrder1.Session_id
         where date(ComOrder1.timestamp)>='2018-11-01' and date(ComOrder1.timestamp)<'2019-11-01'
       ) ComOrder
       on Pages.New_Universal_id=ComOrder.New_Universal_id
        ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {

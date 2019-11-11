@@ -4,7 +4,7 @@ view: a04_Anony_Remover {
       (
         SELECT Page.*,
         Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
-        FROM `kiwi-data-warehouse.looker_scratch.LR_5H41YDS6R779GZOGQZZLF_page_universal_id_New` Page
+        FROM ${a03_pages_universal_id.SQL_TABLE_NAME} Page
         INNER JOIN
         (
           SELECT A.anonymous_id
@@ -12,7 +12,7 @@ view: a04_Anony_Remover {
           (
             SELECT Page.*,
             Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
-            FROM `kiwi-data-warehouse.looker_scratch.LR_5H41YDS6R779GZOGQZZLF_page_universal_id_New` Page
+            FROM ${a03_pages_universal_id.SQL_TABLE_NAME} Page
           )A
           group by A.anonymous_id
           having count(distinct A.New_Universal_id)=1
@@ -21,8 +21,8 @@ view: a04_Anony_Remover {
       )
 
       select * from Page
-
        ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {
