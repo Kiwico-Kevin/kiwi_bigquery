@@ -14,7 +14,7 @@ view: a01_anonymous_ids_list {
           FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2017-11-01')B
         )A
  ;;
-
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
 
   }
 
