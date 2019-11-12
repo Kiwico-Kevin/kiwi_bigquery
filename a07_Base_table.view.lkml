@@ -1,4 +1,4 @@
-view: a06_Base_table_2 {
+view: a07_Base_table {
   derived_table: {
     sql: SELECT A.*
       from
@@ -7,7 +7,7 @@ view: a06_Base_table_2 {
         case when base.OrderTimestamp>=base.EventTimestamp then 1 else 0 end as Before_order_1,
         case when base.OrderTimestamp=base.EventTimestamp then 1 else 0 end as Is_order_1,
         case when base.context_campaign_medium is null  then "Z-Unknown" else base.context_campaign_medium end as Session_Medium
-        FROM ${a06_Base_tabler.SQL_TABLE_NAME} base
+        FROM ${a06_Base_table.SQL_TABLE_NAME} base
       )A
       ORDER BY A.order_id,A.EventTimestamp,A.Session_Medium
        ;;
