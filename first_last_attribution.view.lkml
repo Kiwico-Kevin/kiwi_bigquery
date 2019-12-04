@@ -111,6 +111,35 @@
       sql: ${TABLE}.first_user_agent ;;
     }
 
+    dimension_group: first_timestamp {
+      type: time
+      timeframes: [
+        raw,
+        time,
+        hour,
+        date,
+        week,
+        month,
+        quarter,
+        year
+      ]
+      sql: ${TABLE}.first_timestamp ;;
+    }
+    dimension_group: last_timestamp {
+      type: time
+      timeframes: [
+        raw,
+        time,
+        hour,
+        date,
+        week,
+        month,
+        quarter,
+        year
+      ]
+      sql: ${TABLE}.last_timestamp ;;
+    }
+
     dimension: first_path {
       type: string
       sql: ${TABLE}.first_path ;;
