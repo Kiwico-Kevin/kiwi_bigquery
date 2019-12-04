@@ -35,6 +35,10 @@ view: a02_anonymous_id_recursive_joins {
     drill_fields: [detail*]
   }
 
+  dimension: universal_alias {
+    sql: ${TABLE}.universal_alias ;;
+  }
+
   dimension: alias {
     type: string
     sql: ${TABLE}.alias ;;
