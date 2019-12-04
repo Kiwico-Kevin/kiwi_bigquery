@@ -34,6 +34,10 @@
           AS first_user_agent,
         last_value(context_user_agent ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS last_user_agent
+        first_value(timestamp) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS first_timestamp,
+        last_value(timestamp) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS last_timestamp,
       FROM
         pages ;;
       sql_trigger_value: SELECT CURRENT_DATE() ;;
