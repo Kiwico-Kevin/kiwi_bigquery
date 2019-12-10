@@ -586,6 +586,7 @@ explore: completed_order {
 explore: page_universal_id {}
 explore: page_universal_id_New {}
 
+
 # explore: completed_order_view {
 #   join: users {
 #     type: left_outer
@@ -873,6 +874,11 @@ explore: page_universal_id_New {}
 # }
 #
 explore: ab_tasty_view {
+  join: purchase_widget_customize {
+    type:  left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
+    relationship: many_to_many
+  }
 #   join: users {
 #     type: left_outer
 #     sql_on: ${email_submitted.user_id} = ${users.id} ;;
@@ -887,6 +893,12 @@ explore: ab_tasty_view {
     type: left_outer
     sql_on: ${ab_tasty_view.anonymous_id} = ${pages.anonymous_id} ;;
     relationship: many_to_many
+  }
+  always_join: [a02_anonymous_id_recursive_joins]
+  join: a02_anonymous_id_recursive_joins {
+    sql_on: a02_anonymous_id_recursive_joins.alias =
+      coalesce(ab_tasty_view.user_id, ab_tasty_view.anonymous_id) ;;
+    relationship: many_to_one
   }
   join: completed_order {
     type: left_outer
@@ -1693,6 +1705,12 @@ explore: pages {
     type: full_outer
     sql_on: ${pages.anonymous_id}=${amp_pages.anonymous_id} ;;
     relationship: many_to_many
+  }
+  always_join: [a02_anonymous_id_recursive_joins]
+  join: a02_anonymous_id_recursive_joins {
+    sql_on: a02_anonymous_id_recursive_joins.alias =
+      coalesce(pages.user_id, pages.anonymous_id) ;;
+    relationship: many_to_one
   }
 }
 
@@ -2644,6 +2662,15 @@ explore: purchase_widget_subscription_length {
 #
 # explore: top_index_view {}
 #
+explore: tracks {
+  always_join: [a02_anonymous_id_recursive_joins]
+  join: a02_anonymous_id_recursive_joins {
+    sql_on: a02_anonymous_id_recursive_joins.alias =
+    coalesce(tracks.user_id, tracks.anonymous_id) ;;
+    relationship: many_to_one
+  }
+}
+#
 # explore: tracks {
 #   join: users {
 #     type: left_outer
@@ -2708,11 +2735,17 @@ explore: purchase_widget_subscription_length {
 #   }
 # }
 #
- explore: users {
+explore: users {
   join: pages {
     type: left_outer
     sql_on: ${users.id}=${pages.user_id} ;;
     relationship: one_to_many
+  }
+  always_join: [a02_anonymous_id_recursive_joins]
+  join: a02_anonymous_id_recursive_joins {
+    sql_on: a02_anonymous_id_recursive_joins.alias =
+      coalesce(users.user_id, users.anonymous_id) ;;
+    relationship: many_to_one
   }
   join: email_submitted {
     type: left_outer
@@ -2724,7 +2757,8 @@ explore: purchase_widget_subscription_length {
     sql_on: ${users.id}=${completed_order.user_id} ;;
     relationship: one_to_many
   }
- }
+}
+
 #
 # explore: users_view {}
 #

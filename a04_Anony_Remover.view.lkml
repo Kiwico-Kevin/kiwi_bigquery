@@ -1,18 +1,28 @@
-view: pages_comp_order {
+view: a04_Anony_Remover {
   derived_table: {
-    sql: SELECT Pages.*
-      from looker_scratch.LR_5HZXN3SI6ABZ8PI97M9AB_universal_id_pages Pages
-      inner join
+    sql: with Page as
       (
-        Select Page.New_Universal_id
-        from javascript.completed_order ComOrder1
-        inner join looker_scratch.LR_5HZXN3SI6ABZ8PI97M9AB_universal_id_pages Page
-        on Page.Session_id=ComOrder1.Session_id
-        where date(ComOrder1.timestamp)>='2019-06-01' and date(ComOrder1.timestamp)<'2019-07-01'
-      ) ComOrder
-      on Pages.New_Universal_id=ComOrder.New_Universal_id
-      where date(Pages.timestamp)<='2019-06-30'
+        SELECT Page.*,
+        Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
+        FROM ${a03_pages_universal_id.SQL_TABLE_NAME} Page
+        INNER JOIN
+        (
+          SELECT A.anonymous_id
+          from
+          (
+            SELECT Page.*,
+            Case when Page.universal_alias is null then Page.anonymous_id else Page.anonymous_id end as New_Universal_id
+            FROM ${a03_pages_universal_id.SQL_TABLE_NAME} Page
+          )A
+          group by A.anonymous_id
+          having count(distinct A.New_Universal_id)=1
+        ) Anony_remover
+        on Anony_remover.anonymous_id=Page.anonymous_id
+      )
+
+      select * from Page
        ;;
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
 
   measure: count {

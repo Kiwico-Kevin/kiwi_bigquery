@@ -722,6 +722,17 @@ view: pages {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: mapped_user_id {
+    type: string
+    sql: coalesce(${a02_anonymous_id_recursive_joins.universal_alias},
+      ${user_id},${anonymous_id}) ;;
+  }
+
+  measure: count_distinct_users {
+    type: count_distinct
+    sql: ${mapped_user_id};;
+  }
+
 #   dimension: first_medium {
 #     type: string
 #     sql: first_value(${utm_medium}) OVER (PARTITION BY ${anonymous_id} ORDER BY ${timestamp_raw} ASC) ;;

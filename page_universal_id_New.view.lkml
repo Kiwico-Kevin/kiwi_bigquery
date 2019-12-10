@@ -8,12 +8,12 @@ view: page_universal_id_New {
           SELECT
             anonymous_id AS alias,
             user_id AS next_alias
-          FROM `kiwi-data-warehouse.javascript.tracks`
+          FROM (select * from `kiwi-data-warehouse.javascript.tracks` where date(timestamp)>='2017-11-01')A
           UNION ALL
           SELECT
             previous_id,
             user_id
-          FROM `kiwi-data-warehouse.javascript.aliases_view`
+          FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2017-11-01')B
         )A
       )
       SELECT DISTINCT
@@ -57,11 +57,11 @@ view: page_universal_id_New {
           LEFT JOIN realiases r16 ON r15.next_alias = r16.alias
       )
       SELECT Page.anonymous_id,Page.context_campaign_medium,Page.session_id,Page.timestamp,UNI.universal_alias
-      FROM `kiwi-data-warehouse.javascript.pages` Page
-      LEFT JOIN Universal_mapping UNI On Page.anonymous_id=UNI.alias
+      FROM (select * from `kiwi-data-warehouse.javascript.pages` where date(timestamp)>='2017-11-01') Page
+      LEFT JOIN `kiwi-data-warehouse.looker_scratch.LR_5HDIDDPABSMH9W9FF0EWD_a01_anonymous_ids_list` UNI On Page.anonymous_id=UNI.alias
  ;;
-    sql_trigger_value: SELECT CURRENT_DATE() ;;
   }
+
 
   measure: count {
     type: count

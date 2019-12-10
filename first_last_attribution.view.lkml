@@ -33,7 +33,11 @@
         first_value(context_user_agent) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
           AS first_user_agent,
         last_value(context_user_agent ignore nulls) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
-          AS last_user_agent
+          AS last_user_agent,
+        first_value(timestamp) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS first_timestamp,
+        last_value(timestamp) OVER (PARTITION BY anonymous_id ORDER BY timestamp ASC)
+          AS last_timestamp
       FROM
         pages ;;
       sql_trigger_value: SELECT CURRENT_DATE() ;;
@@ -105,6 +109,35 @@
     dimension: first_user_agent {
       type: string
       sql: ${TABLE}.first_user_agent ;;
+    }
+
+    dimension_group: first_timestamp {
+      type: time
+      timeframes: [
+        raw,
+        time,
+        hour,
+        date,
+        week,
+        month,
+        quarter,
+        year
+      ]
+      sql: ${TABLE}.first_timestamp ;;
+    }
+    dimension_group: last_timestamp {
+      type: time
+      timeframes: [
+        raw,
+        time,
+        hour,
+        date,
+        week,
+        month,
+        quarter,
+        year
+      ]
+      sql: ${TABLE}.last_timestamp ;;
     }
 
     dimension: first_path {
