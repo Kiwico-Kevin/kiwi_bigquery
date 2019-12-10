@@ -244,6 +244,7 @@ view: ab_tasty_view {
     timeframes: [
       raw,
       time,
+      hour,
       date,
       week,
       month,

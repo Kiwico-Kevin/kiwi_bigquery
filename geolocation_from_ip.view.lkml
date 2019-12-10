@@ -3,13 +3,14 @@ view: geolocation_from_ip {
     sql:
     SELECT
       id,
+      anonymous_id,
       IFNULL(city, 'Other') AS city,
       IFNULL(countryLabel, 'Other') AS countryLabel,
       latitude,
       longitude
     FROM (
       SELECT
-        id,
+        id, anonymous_id,
         NET.IPV4_TO_INT64(NET.IP_FROM_STRING(context_ip)) AS clientIpNum,
         TRUNC(NET.IPV4_TO_INT64(NET.IP_FROM_STRING(context_ip))/(256*256)) AS classB
       FROM
@@ -26,6 +27,11 @@ view: geolocation_from_ip {
     primary_key: yes
     type: string
     sql: ${TABLE}.id ;;
+  }
+
+  dimension: anonymous_id {
+    type: string
+    sql: ${TABLE}.anonymous_id ;;
   }
 
   measure: count {

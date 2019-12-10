@@ -878,6 +878,11 @@ explore: ab_tasty_view {
 #     sql_on: ${email_submitted.user_id} = ${users.id} ;;
 #     relationship: many_to_one
 #   }
+  join: checkout_contact_information {
+    type: left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${checkout_contact_information.anonymous_id} ;;
+    relationship: many_to_many
+  }
   join: pages {
     type: left_outer
     sql_on: ${ab_tasty_view.anonymous_id} = ${pages.anonymous_id} ;;
@@ -891,6 +896,21 @@ explore: ab_tasty_view {
   join: email_submitted {
     type: left_outer
     sql_on: ${ab_tasty_view.anonymous_id} = ${email_submitted.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: geolocation_from_ip {
+    type: left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${geolocation_from_ip.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: purchase_widget_customize {
+    type: left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
+    relationship: many_to_many
+  }
+  join: purchase_widget_subscription_length {
+    type: left_outer
+    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_subscription_length.anonymous_id} ;;
     relationship: many_to_many
   }
 }
@@ -1646,7 +1666,7 @@ explore: pages {
   }
   join: completed_order {
     type: left_outer
-    sql_on: ${pages.session_id} = ${completed_order.session_id} ;;
+    sql_on: ${pages.anonymous_id} = ${completed_order.anonymous_id} ;;
     relationship: many_to_one
   }
   join: email_submitted {
@@ -1966,6 +1986,12 @@ explore: purchase_widget_subscription_length {
     sql_on: ${purchase_widget_subscription_length.anonymous_id}=${purchase_widget_customize.anonymous_id} ;;
     relationship: many_to_many
   }
+  join: completed_order {
+    type: left_outer
+    sql_on: ${purchase_widget_subscription_length.anonymous_id}=${completed_order.anonymous_id} ;;
+    relationship: many_to_many
+  }
+
 }
 #
 # explore: purchase_widget_subscription_length_view {

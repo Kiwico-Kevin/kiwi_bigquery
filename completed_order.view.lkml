@@ -1,5 +1,5 @@
 view: completed_order {
-  sql_table_name: javascript.completed_order_view ;;
+  sql_table_name: javascript.completed_order ;;
 
   dimension: id {
     primary_key: yes
@@ -142,42 +142,42 @@ view: completed_order {
   }
 
   dimension: utm_ad{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_ad')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_ad'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_adset{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_adset')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_adset'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_content{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_content')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_content'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_medium{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_medium')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_medium'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_campaign{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_name')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_name'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_placement{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_placement')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_placement'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_source{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_source')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_source'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
   dimension: utm_term{
-    sql: CAST(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_term')AS STRING) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.kcutmz_info, '$[0].campaign_term'), '"', '')AS STRING) ;;
     group_label: "Order Analytics"
   }
 
@@ -301,6 +301,11 @@ view: completed_order {
 
   dimension: first_crate_to_me{
     sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].first_crate_to_me')AS STRING) ;;
+    group_label: "Order Info"
+  }
+
+  dimension: coupon_code{
+    sql: CAST(JSON_EXTRACT(${TABLE}.order_info, '$[0].coupon_code')AS STRING) ;;
     group_label: "Order Info"
   }
 

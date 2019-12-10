@@ -607,12 +607,14 @@ view: pages {
         WHEN ${path} LIKE '/cricket' THEN 'Cricket Page'
         WHEN ${path} LIKE '/eureka' THEN 'Eureka Page'
         WHEN ${path} LIKE '/atlas' THEN 'Atlas Page'
+        WHEN ${path} LIKE '/panda' THEN 'Panda Page'
         WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
         WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
         WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
         WHEN ${path} LIKE '/koala/%' THEN 'Koala Explore'
         WHEN ${path} LIKE '/doodle/%' THEN 'Doodle Explore'
         WHEN ${path} LIKE '/cricket/%' THEN 'Cricket Explore'
+         WHEN ${path} LIKE '/panda/%' THEN 'Panda Explore'
         WHEN ${path} LIKE '/store%' THEN 'Store'
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
@@ -634,6 +636,7 @@ view: pages {
     ${path_type} LIKE 'Eureka Page' OR
     ${path_type} LIKE 'Atlas Page' OR
     ${path_type} LIKE 'Tinker Page' OR
+    ${path_type} LIKE 'Panda Page' OR
     ${path_type} LIKE 'Store' OR
     ${path_type} LIKE 'Checkout' OR
     ${path_type} LIKE 'Marketing';;

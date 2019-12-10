@@ -1,5 +1,5 @@
 view: purchase_widget_subscription_length {
-  sql_table_name: javascript.purchase_widget_subscription_length ;;
+  sql_table_name: javascript.purchase_widget_subscription_length_view ;;
 
   dimension: id {
     primary_key: yes
