@@ -915,11 +915,6 @@ explore: ab_tasty_view {
     sql_on: ${ab_tasty_view.anonymous_id} = ${geolocation_from_ip.anonymous_id} ;;
     relationship: many_to_many
   }
-  join: purchase_widget_customize {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
-    relationship: many_to_many
-  }
   join: purchase_widget_subscription_length {
     type: left_outer
     sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_subscription_length.anonymous_id} ;;

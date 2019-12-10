@@ -206,6 +206,7 @@ view: pages {
           WHEN ${TABLE}.context_campaign_name LIKE 'lg%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
           WHEN ${TABLE}.context_campaign_name LIKE 'nl%' AND ${TABLE}.context_campaign_medium = 'email'  THEN 'email_promo'
           WHEN ${TABLE}.context_campaign_medium = 'email'  THEN 'email_triggered'
+          WHEN ${TABLE}.context_campaign_medium LIKE '%synthetics%'  THEN 'bot'
           WHEN ${TABLE}.context_campaign_medium = '(none)' OR ${TABLE}.context_campaign_medium IS NULL THEN 'direct'
           ELSE ${TABLE}.context_campaign_medium
     END;;
@@ -608,19 +609,21 @@ view: pages {
         WHEN ${path} LIKE '/eureka' THEN 'Eureka Page'
         WHEN ${path} LIKE '/atlas' THEN 'Atlas Page'
         WHEN ${path} LIKE '/panda' THEN 'Panda Page'
+        WHEN ${path} LIKE '/maker' THEN 'Maker Page'
         WHEN ${path} LIKE '/Gifting' THEN 'Gifting Page'
         WHEN ${path} LIKE '/tinker/%' THEN 'Tinker Explore'
         WHEN ${path} LIKE '/kiwi/%' THEN 'Kiwi Explore'
         WHEN ${path} LIKE '/koala/%' THEN 'Koala Explore'
         WHEN ${path} LIKE '/doodle/%' THEN 'Doodle Explore'
         WHEN ${path} LIKE '/cricket/%' THEN 'Cricket Explore'
-         WHEN ${path} LIKE '/panda/%' THEN 'Panda Explore'
+        WHEN ${path} LIKE '/panda/%' THEN 'Panda Explore'
+        WHEN ${path} LIKE '/maker/%' THEN 'Maker Explore'
         WHEN ${path} LIKE '/store%' THEN 'Store'
         WHEN ${path} LIKE '/blog/%' THEN 'Blog'
         WHEN ${path} LIKE '/diy/%' THEN 'DIY'
         WHEN ${path} LIKE '/survey%' THEN 'Survey'
         WHEN ${path} LIKE '/slime%' THEN 'SEO Landing Page'
-        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
+        WHEN ${path} LIKE '/m/%' OR ${path} LIKE '/try' OR ${path} LIKE '/smarter'OR ${path} LIKE '/email-homepage' OR ${category} LIKE 'Marketing Landing Page' THEN 'Marketing'
         WHEN ${path} LIKE '/checkout%' THEN 'Checkout'
         ELSE 'Other'
     END;;
@@ -637,9 +640,10 @@ view: pages {
     ${path_type} LIKE 'Atlas Page' OR
     ${path_type} LIKE 'Tinker Page' OR
     ${path_type} LIKE 'Panda Page' OR
-    ${path_type} LIKE 'Store' OR
+    ${path_type} LIKE 'Maker Page' OR
     ${path_type} LIKE 'Checkout' OR
-    ${path_type} LIKE 'Marketing';;
+    ${path_type} LIKE 'Marketing'AND
+    ${medium_type} <> 'bot';;
     }
 
 #   dimension_group: received {
