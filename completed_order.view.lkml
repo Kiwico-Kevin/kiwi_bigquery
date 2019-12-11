@@ -220,7 +220,9 @@ view: completed_order {
       time,
       date,
       week,
+      week_of_year,
       month,
+      month_name,
       quarter,
       year
     ]
