@@ -24,7 +24,7 @@ view: a02_anonymous_id_recursive_joins {
             , r1.alias
             , r0.next_alias
             , r0.alias
-          )) AS universal_alias
+          ) AS universal_alias
           , r0.original_timestamp AS original_timestamp
           FROM ${a01_anonymous_ids_list.SQL_TABLE_NAME} AS r0
           LEFT JOIN ${a01_anonymous_ids_list.SQL_TABLE_NAME} r1 ON r0.next_alias = r1.alias
