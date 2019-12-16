@@ -25,6 +25,8 @@ persist_with: kiwi_bigquery_default_datagroup
 # }
 # }
 
+explore: a01b_anonymous_ids_list_view {}
+
 explore: magento_customer_entity {
   join: magento_sales_flat_order {
     type: left_outer

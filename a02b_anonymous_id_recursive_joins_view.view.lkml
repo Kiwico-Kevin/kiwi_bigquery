@@ -13,7 +13,7 @@ view: a02b_anonymous_id_recursive_joins_view {
 WHERE
   ROW_NUMBER = 1
  ;;
-    sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a02_anonymous_id_recursive_joins.SQL_TABLE_NAME} ;;
+#     sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a02_anonymous_id_recursive_joins.SQL_TABLE_NAME} ;;
   }
 
   measure: count {
