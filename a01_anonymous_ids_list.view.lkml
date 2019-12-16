@@ -5,12 +5,14 @@ view: a01_anonymous_ids_list {
         (
           SELECT
             anonymous_id AS alias,
-            user_id AS next_alias
+            user_id AS next_alias,
+            original_timestamp AS original_timestamp
           FROM (select * from `kiwi-data-warehouse.javascript.tracks` where date(timestamp)>='2017-11-01')A
           UNION ALL
           SELECT
             previous_id,
-            user_id
+            user_id,
+            original_timestamp
           FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2017-11-01')B
         )A
  ;;

@@ -1704,8 +1704,8 @@ explore: pages {
   always_join: [a02_anonymous_id_recursive_joins]
   join: a02_anonymous_id_recursive_joins {
     sql_on: a02_anonymous_id_recursive_joins.alias =
-      coalesce(pages.user_id, pages.anonymous_id) ;;
-    relationship: many_to_one
+      coalesce(pages.anonymous_id, pages.user_id) ;;
+    relationship: one_to_many
   }
 }
 

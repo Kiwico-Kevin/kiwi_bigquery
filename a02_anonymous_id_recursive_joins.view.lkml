@@ -3,7 +3,7 @@ view: a02_anonymous_id_recursive_joins {
     sql:
           SELECT DISTINCT
       r0.alias
-      , Max(COALESCE(
+      , first_value(COALESCE(
               r9.next_alias
             , r9.alias
             , r8.next_alias
@@ -24,7 +24,7 @@ view: a02_anonymous_id_recursive_joins {
             , r1.alias
             , r0.next_alias
             , r0.alias
-          )) AS universal_alias
+          )) OVER (PARTITION BY r0.alias ORDER BY original_timestamp DESC) AS universal_alias
           FROM ${a01_anonymous_ids_list.SQL_TABLE_NAME} AS r0
           LEFT JOIN ${a01_anonymous_ids_list.SQL_TABLE_NAME} r1 ON r0.next_alias = r1.alias
           LEFT JOIN ${a01_anonymous_ids_list.SQL_TABLE_NAME} r2 ON r1.next_alias = r2.alias
