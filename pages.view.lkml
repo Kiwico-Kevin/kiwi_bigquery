@@ -730,7 +730,7 @@ view: pages {
 
   dimension: mapped_user_id {
     type: string
-    sql: coalesce(${a02_anonymous_id_recursive_joins.universal_alias},
+    sql: coalesce(${a02b_anonymous_id_recursive_joins_view.universal_alias},
       ${user_id},${anonymous_id}) ;;
   }
 
