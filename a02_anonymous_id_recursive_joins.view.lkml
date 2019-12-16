@@ -25,7 +25,7 @@ view: a02_anonymous_id_recursive_joins {
           LEFT JOIN ${a01c_anonymous_ids_list_complete_unique.SQL_TABLE_NAME} r4 ON r3.next_alias = r4.alias
           LEFT JOIN ${a01c_anonymous_ids_list_complete_unique.SQL_TABLE_NAME} r5 ON r4.next_alias = r5.alias
  ;;
-#     sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a01b_anonymous_ids_list_view.SQL_TABLE_NAME} ;;
+     sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a01c_anonymous_ids_list_complete_unique.SQL_TABLE_NAME} ;;
   }
 
   measure: count {
