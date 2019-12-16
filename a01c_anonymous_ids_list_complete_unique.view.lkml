@@ -1,4 +1,4 @@
-view: a01b_anonymous_ids_list_view {
+view: a01c_anonymous_ids_list_complete_unique {
   derived_table: {
     sql:
     SELECT
@@ -8,12 +8,12 @@ view: a01b_anonymous_ids_list_view {
     *,
     ROW_NUMBER() OVER (PARTITION BY alias ORDER BY original_timestamp DESC) AS ROW_NUMBER
     FROM
-    ${a01_anonymous_ids_list.SQL_TABLE_NAME}
+    ${a01b_anonymous_ids_list_complete.SQL_TABLE_NAME}
     )
     WHERE
     ROW_NUMBER = 1
     ;;
-    sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a01_anonymous_ids_list.SQL_TABLE_NAME} ;;
+    sql_trigger_value: SELECT MAX(original_timestamp) FROM ${a01b_anonymous_ids_list_complete.SQL_TABLE_NAME} ;;
   }
 
   measure: count {

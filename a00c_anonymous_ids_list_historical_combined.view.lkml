@@ -1,22 +1,22 @@
-view: a01_anonymous_ids_list {
+view: a00c_anonymous_ids_list_historical_combined {
   derived_table: {
     sql: select distinct A.*
         from
         (
           SELECT
-            anonymous_id AS alias,
-            user_id AS next_alias,
+            alias AS alias,
+            next_alias AS next_alias,
             original_timestamp AS original_timestamp
-          FROM (select * from `kiwi-data-warehouse.javascript.tracks` where date(timestamp)>='2019-12-01')A
+          FROM ${a00a_anonymous_ids_list_historical_2017.SQL_TABLE_NAME}
           UNION ALL
           SELECT
-            previous_id,
-            user_id,
-            original_timestamp
-          FROM ( select * from `kiwi-data-warehouse.javascript.aliases_view` where date(timestamp)>='2019-12-01')B
+            alias AS alias,
+            next_alias AS next_alias,
+            original_timestamp AS original_timestamp
+          FROM ${a00b_anonymous_ids_list_historical_2019.SQL_TABLE_NAME}
         )A
  ;;
-    sql_trigger_value: SELECT CURRENT_DATE() ;;
+    sql_trigger_value: SELECT 1 ;;
 
   }
 
