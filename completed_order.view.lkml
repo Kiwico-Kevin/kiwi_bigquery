@@ -256,7 +256,7 @@ view: completed_order {
 #   }
 
   measure: count {
-    type: count
+    type: number
     drill_fields: [detail*]
   }
 
