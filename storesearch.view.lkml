@@ -1,7 +1,7 @@
 view: storesearch {
   derived_table: {
     sql: SELECT
-      date(timestamp) Date,
+      timestamp SearchDate,
       trim(lower(substr(context_page_search, 4, 15))) SearchTerm,
       count(distinct session_id) CountSessions,
       count(distinct anonymous_id) CountVisitors
@@ -17,9 +17,9 @@ view: storesearch {
     drill_fields: [detail*]
   }
 
-  dimension: date {
+  dimension: search_date {
     type: date
-    sql: ${TABLE}.Date ;;
+    sql: ${TABLE}.SearchDate ;;
   }
 
   dimension: search_term {
@@ -38,6 +38,6 @@ view: storesearch {
   }
 
   set: detail {
-    fields: [date, search_term, count_sessions, count_visitors]
+    fields: [search_date, search_term, count_sessions, count_visitors]
   }
 }
