@@ -8,9 +8,9 @@ view: storesearch {
       FROM `kiwi-data-warehouse.javascript.pages`
       where context_page_path like '%catalogsearch%'
       group by 1,2
-    sql_trigger_value: SELECT CURDATE()
     ;;
-  }
+    sql_trigger_value: SELECT CURRENT_DATE() ;;
+    }
 
   measure: count {
     type: count
