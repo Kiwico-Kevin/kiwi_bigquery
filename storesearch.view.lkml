@@ -27,13 +27,13 @@ view: storesearch {
     sql: ${TABLE}.SearchTerm ;;
   }
 
-  dimension: count_sessions {
-    type: number
+  measure: count_sessions {
+    type: sum
     sql: ${TABLE}.CountSessions ;;
   }
 
-  dimension: count_visitors {
-    type: number
+  measure: count_visitors {
+    type: sum
     sql: ${TABLE}.CountVisitors ;;
   }
 
