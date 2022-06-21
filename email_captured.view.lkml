@@ -1,5 +1,5 @@
 view: email_captured {
-  sql_table_name: php.email_captured ;;
+  sql_table_name: javascript.email_captured ;;
 
   dimension: id {
     primary_key: yes
