@@ -143,6 +143,22 @@ view: email_captured {
 
   measure: count {
     type: count
-    drill_fields: [id, context_library_name]
+    drill_fields: [detail*]
+  }
+
+  measure: distinct_count {
+    type: count_distinct
+    sql: ${anonymous_id} ;;
+  }
+
+  # ----- Sets of fields for drilling ------
+  set: detail {
+    fields: [
+      id,
+      users.context_campaign_name,
+      users.id,
+      users.context_library_name,
+      users.name
+    ]
   }
 }
