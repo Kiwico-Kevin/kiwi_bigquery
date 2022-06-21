@@ -2754,6 +2754,11 @@ explore: users {
     sql_on: ${users.id}=${completed_order.user_id} ;;
     relationship: one_to_many
   }
+  join: email_captured {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${email_captured.anonymous_id} ;;
+    relationship: many_to_many
+  }
 }
 
 #
