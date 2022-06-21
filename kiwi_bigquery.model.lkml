@@ -1683,6 +1683,11 @@ explore: pages {
     sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
     relationship: many_to_many
   }
+  join: email_captured {
+    type: left_outer
+    sql_on: ${pages.anonymous_id} = ${email_captured.anonymous_id} ;;
+    relationship: many_to_many
+  }
   join: first_last_attribution {
     type: left_outer
     sql_on: ${pages.anonymous_id} = ${first_last_attribution.anonymous_id} ;;
