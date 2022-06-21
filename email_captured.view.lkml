@@ -148,7 +148,7 @@ view: email_captured {
 
   measure: distinct_count {
     type: count_distinct
-    sql: ${anonymous_id} ;;
+    sql: ${TABLE}.anonymous_id ;;
   }
 
   # ----- Sets of fields for drilling ------
