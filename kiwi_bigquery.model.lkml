@@ -4,7 +4,7 @@ connection: "kiwi_biqquery"
 include: "*.view"
 
 # - start day
-week_start_day: friday
+week_start_day: sunday
 
 # include all the dashboards
 #include: "*.dashboard"
