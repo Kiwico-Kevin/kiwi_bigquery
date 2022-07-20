@@ -36,7 +36,7 @@ view: email_captured {
     case: {
       when: {
         sql: ${TABLE}.email_source like '%checkout%' ;;
-        label: "Shop"
+        label: "is_checkout"
       }
     }
   }
