@@ -32,6 +32,15 @@ view: email_captured {
     sql: ${TABLE}.email_source ;;
   }
 
+  dimension: is_checkout {
+    case: {
+      when: {
+        sql: ${TABLE}.email_source like '%checkout%' ;;
+        label: "Shop"
+      }
+    }
+  }
+
   dimension: event {
     type: string
     sql: ${TABLE}.event ;;
