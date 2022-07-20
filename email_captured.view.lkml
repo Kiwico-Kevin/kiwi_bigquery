@@ -32,6 +32,13 @@ view: email_captured {
     sql: ${TABLE}.email_source ;;
   }
 
+  dimension: is_checkout {
+  type: string
+  sql: |
+  (select
+  case when (${TABLE}.email_source like '%checkout%' then 'checkout'
+  else 'not_checkout'
+  from ${TABLE}
   dimension: event {
     type: string
     sql: ${TABLE}.event ;;
