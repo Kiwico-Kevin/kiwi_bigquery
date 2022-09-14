@@ -41,6 +41,15 @@ view: email_captured {
     }
   }
 
+  dimension: is_store {
+    case: {
+      when: {
+        sql: ${TABLE}.email_source like '%store%' ;;
+        label: "is_store"
+      }
+    }
+  }
+
   dimension: event {
     type: string
     sql: ${TABLE}.event ;;
