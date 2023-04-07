@@ -193,6 +193,30 @@ view: pages {
     group_label: "UTM Variables"
   }
 
+  dimension: US_INTL {
+    sql:
+    CASE
+          WHEN lower(${TABLE}.context_locale) LIKE 'us' THEN 'US'
+          ELSE 'INTL'
+      END;;
+  }
+
+
+  dimension: medium_type_updated {
+    sql:
+     CASE
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE "%aff%" THEN 'AFF'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%email%' THEN 'Email'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%smm%' or lower(${TABLE}.context_campaign_medium) LIKE '%facebook%' THEN 'SMM'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%social%' THEN 'Social'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%pmax%' THEN 'PMAX'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%sem%' THEN 'SEM'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%direct%' or lower(${TABLE}.context_campaign_medium) LIKE '%organic%' or lower(${TABLE}.context_campaign_medium) LIKE '%none%' or ${TABLE}.context_campaign_medium is null THEN 'Organic'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%discovery%' THEN 'Discovery'
+          ELSE 'Other'
+    END;;
+    group_label: "UTM Variables"
+  }
   dimension: medium_type {
     sql:
      CASE
