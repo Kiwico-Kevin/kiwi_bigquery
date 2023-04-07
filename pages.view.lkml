@@ -196,7 +196,7 @@ view: pages {
   dimension: US_INTL {
     sql:
     CASE
-          WHEN lower(${TABLE}.context_locale) LIKE 'us' THEN 'US'
+          WHEN lower(${TABLE}.context_locale) LIKE '%us%' THEN 'US'
           ELSE 'INTL'
       END;;
   }
