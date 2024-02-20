@@ -215,8 +215,9 @@ view: pages {
           WHEN lower(${TABLE}.context_campaign_medium) LIKE '%social%' THEN 'Social'
           WHEN lower(${TABLE}.context_campaign_medium) LIKE '%pmax%' THEN 'PMAX'
           WHEN lower(${TABLE}.context_campaign_medium) LIKE '%sem%' THEN 'SEM'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE "%infl%" THEN 'INFL'
+          WHEN lower(${TABLE}.context_campaign_medium) LIKE "%sms%" THEN 'SMS'
           WHEN lower(${TABLE}.context_campaign_medium) LIKE '%direct%' or lower(${TABLE}.context_campaign_medium) LIKE '%organic%' or lower(${TABLE}.context_campaign_medium) LIKE '%none%' or ${TABLE}.context_campaign_medium is null THEN 'Organic'
-          WHEN lower(${TABLE}.context_campaign_medium) LIKE '%discovery%' THEN 'Discovery'
           ELSE 'Other'
     END;;
     group_label: "UTM Variables"
