@@ -9,7 +9,7 @@ view: landing_page{
           AS first_medium
       FROM
         pages ;;
-      sql_trigger_value: SELECT_CURDATE() ;;
+      # sql_trigger_value: SELECT_CURDATE() ;;
     }
 
     dimension: session_id {
