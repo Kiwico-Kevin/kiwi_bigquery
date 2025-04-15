@@ -25,30 +25,30 @@ persist_with: kiwi_bigquery_default_datagroup
 # }
 # }
 
-explore: a01c_anonymous_ids_list_complete_unique {}
+# explore: a01c_anonymous_ids_list_complete_unique {}
 
-explore: magento_customer_entity {
-  join: magento_sales_flat_order {
-    type: left_outer
-    sql_on: ${magento_customer_entity.entity_id}=${magento_sales_flat_order.customer_id} ;;
-    relationship: many_to_many
-  }
-  join: billing_address {
-    from: magento_sales_flat_order_address
-    sql_on: ${magento_customer_entity.entity_id}=${billing_address.customer_id} AND ${billing_address.address_type} =  'billing' ;;
-    relationship: many_to_many
-  }
-  join: first_name {
-    from: magento_customer_entity_varchar
-    sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=5 ;;
-    relationship: many_to_many
-  }
-  join: last_name {
-    from: magento_customer_entity_varchar
-    sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=7 ;;
-    relationship: many_to_many
-  }
-}
+# explore: magento_customer_entity {
+#   join: magento_sales_flat_order {
+#     type: left_outer
+#     sql_on: ${magento_customer_entity.entity_id}=${magento_sales_flat_order.customer_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: billing_address {
+#     from: magento_sales_flat_order_address
+#     sql_on: ${magento_customer_entity.entity_id}=${billing_address.customer_id} AND ${billing_address.address_type} =  'billing' ;;
+#     relationship: many_to_many
+#   }
+#   join: first_name {
+#     from: magento_customer_entity_varchar
+#     sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=5 ;;
+#     relationship: many_to_many
+#   }
+#   join: last_name {
+#     from: magento_customer_entity_varchar
+#     sql_on: ${magento_customer_entity.entity_id}=${first_name.entity_id} AND ${first_name.attribute_id}=7 ;;
+#     relationship: many_to_many
+#   }
+# }
 
 # explore: subscribed {
 #   join: pages {
@@ -564,13 +564,13 @@ explore: magento_customer_entity {
 #
 # explore: clv_per_order_join_count {}
 #
-explore: completed_order {
-  join: users {
-    type: left_outer
-    sql_on: ${completed_order.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+# explore: completed_order {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${completed_order.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 # explore: pricing_experiment {
 #   join: aliases {
@@ -585,8 +585,8 @@ explore: completed_order {
 #   }
 # }
 
-explore: page_universal_id {}
-explore: page_universal_id_New {}
+# explore: page_universal_id {}
+# explore: page_universal_id_New {}
 
 
 # explore: completed_order_view {
@@ -875,85 +875,85 @@ explore: page_universal_id_New {}
 #   }
 # }
 #
-explore: ab_tasty_view {
-  join: purchase_widget_customize {
-    type:  left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
-    relationship: many_to_many
-  }
-#   join: users {
+# explore: ab_tasty_view {
+#   join: purchase_widget_customize {
+#     type:  left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_customize.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+# #   join: users {
+# #     type: left_outer
+# #     sql_on: ${email_submitted.user_id} = ${users.id} ;;
+# #     relationship: many_to_one
+# #   }
+#   join: checkout_contact_information {
 #     type: left_outer
-#     sql_on: ${email_submitted.user_id} = ${users.id} ;;
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${checkout_contact_information.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: pages {
+#     type: left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${pages.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   always_join: [a02_anonymous_id_recursive_joins]
+#   join: a02_anonymous_id_recursive_joins {
+#     sql_on: a02_anonymous_id_recursive_joins.alias =
+#       coalesce(ab_tasty_view.anonymous_id, ab_tasty_view.user_id) ;;
+#     relationship: one_to_many
+#   }
+#   join: completed_order {
+#     type: left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${completed_order.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: email_submitted {
+#     type: left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${email_submitted.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: geolocation_from_ip {
+#     type: left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${geolocation_from_ip.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: purchase_widget_subscription_length {
+#     type: left_outer
+#     sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_subscription_length.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+# }
+
+# explore: customer_revenue_report{
+#   join: customer_first_order {
+#     type: inner
+#     sql_on: ${customer_revenue_report.customer_id}=${customer_first_order.customer_id} ;;
 #     relationship: many_to_one
 #   }
-  join: checkout_contact_information {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${checkout_contact_information.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: pages {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${pages.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  always_join: [a02_anonymous_id_recursive_joins]
-  join: a02_anonymous_id_recursive_joins {
-    sql_on: a02_anonymous_id_recursive_joins.alias =
-      coalesce(ab_tasty_view.anonymous_id, ab_tasty_view.user_id) ;;
-    relationship: one_to_many
-  }
-  join: completed_order {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${completed_order.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: email_submitted {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${email_submitted.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: geolocation_from_ip {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${geolocation_from_ip.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: purchase_widget_subscription_length {
-    type: left_outer
-    sql_on: ${ab_tasty_view.anonymous_id} = ${purchase_widget_subscription_length.anonymous_id} ;;
-    relationship: many_to_many
-  }
-}
-
-explore: customer_revenue_report{
-  join: customer_first_order {
-    type: inner
-    sql_on: ${customer_revenue_report.customer_id}=${customer_first_order.customer_id} ;;
-    relationship: many_to_one
-  }
-  join: magento_order_analytics {
-    type: left_outer
-    sql_on: ${customer_first_order.first_order}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
-    relationship: one_to_one
-    required_joins: [customer_first_order]
-    }
-  join: magento_flat_order {
-    type: left_outer
-    sql_on: ${customer_first_order.first_order}=${magento_flat_order.entity_id};;
-    relationship: many_to_one
-    required_joins: [customer_first_order]
-  }
-  join: magento_subscriptions {
-    type: left_outer
-    sql_on: ${customer_first_order.first_order}=${magento_subscriptions.primary_order_id};;
-    relationship: many_to_one
-    required_joins: [customer_first_order]
-  }
-  join: magento_customer {
-    type: left_outer
-    sql_on: ${customer_revenue_report.customer_id}=${magento_customer.entity_id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: magento_order_analytics {
+#     type: left_outer
+#     sql_on: ${customer_first_order.first_order}=${magento_order_analytics.order_id} and ${magento_order_analytics.type} = 'order' ;;
+#     relationship: one_to_one
+#     required_joins: [customer_first_order]
+#     }
+#   join: magento_flat_order {
+#     type: left_outer
+#     sql_on: ${customer_first_order.first_order}=${magento_flat_order.entity_id};;
+#     relationship: many_to_one
+#     required_joins: [customer_first_order]
+#   }
+#   join: magento_subscriptions {
+#     type: left_outer
+#     sql_on: ${customer_first_order.first_order}=${magento_subscriptions.primary_order_id};;
+#     relationship: many_to_one
+#     required_joins: [customer_first_order]
+#   }
+#   join: magento_customer {
+#     type: left_outer
+#     sql_on: ${customer_revenue_report.customer_id}=${magento_customer.entity_id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 #
 # explore: experiment_viewed_view {
@@ -1584,60 +1584,60 @@ explore: customer_revenue_report{
 #   }
 # }
 
-explore: magento_kiwicrate_subscription {
-#   always_filter: {
-#     filters: {
-#       field: funnel.event_time
-#       value: "30 days ago for 30 days"
+# explore: magento_kiwicrate_subscription {
+# #   always_filter: {
+# #     filters: {
+# #       field: funnel.event_time
+# #       value: "30 days ago for 30 days"
+# #     }
+# #   }
+#     join: primary_order {
+#     from: magento_sales_flat_order
+#     type: left_outer
+#     sql_on: primary_order.entity_id=magento_kiwicrate_subscription.primary_order_id ;;
+#     relationship: many_to_many
 #     }
+#   join: order_analytics {
+#     from: magento_kiwicrate_order_analytics
+#     type:  left_outer
+#     sql_on: magento_kiwicrate_order_analytics.order_id=primary_order.entity_id and magento_kiwicrate_order_analytics.type = 'order' ;;
+#     required_joins: [primary_order]
+#     relationship: many_to_many
+#     }
+#     join: magento_customer_entity {
+#     from: magento_customer_entity
+#     type:  left_outer
+#     sql_on:  ${magento_customer_entity.entity_id}=${magento_kiwicrate_subscription.customer_id} ;;
+#     relationship:  many_to_many
+#     }
+# #     join: funnel {
+# #     from: funnel
+# #     sql_on: ${primary_order.created_date}=${funnel.event_date} ;;
+# #     relationship: one_to_one
+# #   }
+# #   join: pages {
+# #     from:  pages
+# #     sql_on: ${pages.timestamp_date}=${primary_order.created_date} ;;
+# #     required_joins: [magento_sales_flat_order]
+# #     relationship: one_to_one
+# #   }
 #   }
-    join: primary_order {
-    from: magento_sales_flat_order
-    type: left_outer
-    sql_on: primary_order.entity_id=magento_kiwicrate_subscription.primary_order_id ;;
-    relationship: many_to_many
-    }
-   join: order_analytics {
-    from: magento_kiwicrate_order_analytics
-    type:  left_outer
-    sql_on: magento_kiwicrate_order_analytics.order_id=primary_order.entity_id and magento_kiwicrate_order_analytics.type = 'order' ;;
-    required_joins: [primary_order]
-    relationship: many_to_many
-    }
-    join: magento_customer_entity {
-    from: magento_customer_entity
-    type:  left_outer
-    sql_on:  ${magento_customer_entity.entity_id}=${magento_kiwicrate_subscription.customer_id} ;;
-    relationship:  many_to_many
-    }
-#     join: funnel {
-#     from: funnel
-#     sql_on: ${primary_order.created_date}=${funnel.event_date} ;;
-#     relationship: one_to_one
-#   }
-#   join: pages {
-#     from:  pages
-#     sql_on: ${pages.timestamp_date}=${primary_order.created_date} ;;
-#     required_joins: [magento_sales_flat_order]
-#     relationship: one_to_one
-#   }
-  }
 
-explore: magento_sales_flat_order_item {
-  join: magento_sales_flat_order {
-    from: magento_sales_flat_order
-    type:  left_outer
-    sql_on:  ${magento_sales_flat_order.entity_id}=${magento_sales_flat_order_item.order_id};;
-    relationship: many_to_many
-  }
-  join: order_analytics {
-    from: magento_kiwicrate_order_analytics
-    type:  left_outer
-    sql_on: order_analytics.order_id=primary_order.entity_id and order_analytics.type = 'order' ;;
-    required_joins: [magento_sales_flat_order]
-    relationship: many_to_many
-  }
-}
+# explore: magento_sales_flat_order_item {
+#   join: magento_sales_flat_order {
+#     from: magento_sales_flat_order
+#     type:  left_outer
+#     sql_on:  ${magento_sales_flat_order.entity_id}=${magento_sales_flat_order_item.order_id};;
+#     relationship: many_to_many
+#   }
+#   join: order_analytics {
+#     from: magento_kiwicrate_order_analytics
+#     type:  left_outer
+#     sql_on: order_analytics.order_id=primary_order.entity_id and order_analytics.type = 'order' ;;
+#     required_joins: [magento_sales_flat_order]
+#     relationship: many_to_many
+#   }
+# }
 #
 # explore: our_story_modal {
 #   join: users {
@@ -1665,7 +1665,7 @@ explore: magento_sales_flat_order_item {
 #
 # explore: our_vision_modal_view {}
 #
-explore: monthly_activity {}
+# explore: monthly_activity {}
 
 explore: pages {
   join: users {
@@ -1716,8 +1716,8 @@ explore: pages {
   }
 }
 
-explore: amp_pages {
-}
+# explore: amp_pages {
+# }
 
 # explore: pages_view {
 #   join: users {
@@ -1995,24 +1995,24 @@ explore: amp_pages {
 #   }
 # }
 #
-explore: purchase_widget_subscription_length {
-  join: users {
-    type: left_outer
-    sql_on: ${purchase_widget_subscription_length.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-  join: purchase_widget_customize {
-    type: left_outer
-    sql_on: ${purchase_widget_subscription_length.anonymous_id}=${purchase_widget_customize.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: completed_order {
-    type: left_outer
-    sql_on: ${purchase_widget_subscription_length.anonymous_id}=${completed_order.anonymous_id} ;;
-    relationship: many_to_many
-  }
+# explore: purchase_widget_subscription_length {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${purchase_widget_subscription_length.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+#   join: purchase_widget_customize {
+#     type: left_outer
+#     sql_on: ${purchase_widget_subscription_length.anonymous_id}=${purchase_widget_customize.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: completed_order {
+#     type: left_outer
+#     sql_on: ${purchase_widget_subscription_length.anonymous_id}=${completed_order.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
 
-}
+# }
 #
 # explore: purchase_widget_subscription_length_view {
 #   join: users {
@@ -2664,14 +2664,14 @@ explore: purchase_widget_subscription_length {
 #
 # explore: top_index_view {}
 #
-explore: tracks {
-  always_join: [a02_anonymous_id_recursive_joins]
-  join: a02_anonymous_id_recursive_joins {
-    sql_on: a02_anonymous_id_recursive_joins.alias =
-    coalesce(tracks.anonymous_id, tracks.user_id) ;;
-    relationship: one_to_many
-  }
-}
+# explore: tracks {
+#   always_join: [a02_anonymous_id_recursive_joins]
+#   join: a02_anonymous_id_recursive_joins {
+#     sql_on: a02_anonymous_id_recursive_joins.alias =
+#     coalesce(tracks.anonymous_id, tracks.user_id) ;;
+#     relationship: one_to_many
+#   }
+# }
 #
 # explore: tracks {
 #   join: users {
@@ -2737,34 +2737,34 @@ explore: tracks {
 #   }
 # }
 #
-explore: users {
-  join: pages {
-    type: left_outer
-    sql_on: ${users.id}=${pages.user_id} ;;
-    relationship: one_to_many
-  }
-  always_join: [a02_anonymous_id_recursive_joins]
-  join: a02_anonymous_id_recursive_joins {
-    sql_on: a02_anonymous_id_recursive_joins.alias =
-      coalesce(users.anonymous_id, users.user_id) ;;
-    relationship: one_to_many
-  }
-  join: email_submitted {
-    type: left_outer
-    sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
-    relationship: many_to_many
-  }
-  join: completed_order {
-    type: left_outer
-    sql_on: ${users.id}=${completed_order.user_id} ;;
-    relationship: one_to_many
-  }
-  join: email_captured {
-    type: left_outer
-    sql_on: ${pages.anonymous_id} = ${email_captured.anonymous_id} ;;
-    relationship: many_to_many
-  }
-}
+# explore: users {
+#   join: pages {
+#     type: left_outer
+#     sql_on: ${users.id}=${pages.user_id} ;;
+#     relationship: one_to_many
+#   }
+#   always_join: [a02_anonymous_id_recursive_joins]
+#   join: a02_anonymous_id_recursive_joins {
+#     sql_on: a02_anonymous_id_recursive_joins.alias =
+#       coalesce(users.anonymous_id, users.user_id) ;;
+#     relationship: one_to_many
+#   }
+#   join: email_submitted {
+#     type: left_outer
+#     sql_on: ${pages.anonymous_id} = ${email_submitted.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+#   join: completed_order {
+#     type: left_outer
+#     sql_on: ${users.id}=${completed_order.user_id} ;;
+#     relationship: one_to_many
+#   }
+#   join: email_captured {
+#     type: left_outer
+#     sql_on: ${pages.anonymous_id} = ${email_captured.anonymous_id} ;;
+#     relationship: many_to_many
+#   }
+# }
 
 #
 # explore: users_view {}
@@ -2800,5 +2800,5 @@ explore: users {
 #     relationship: many_to_one
 #   }
 # }
-explore: storesearch {
-}
+# explore: storesearch {
+# }
